@@ -55,36 +55,73 @@
       background: #fafafa;
       padding: 1.5rem;
     }
+    .comparison-row {
+      display: flex;
+      flex-wrap: wrap;
+      margin-bottom: 2rem;
+      border: 1px solid #e0e0e0;
+      border-radius: 12px;
+      background: #fafafa;
+      padding: 1.5rem;
+    }
+
     .comparison-col {
       flex: 1;
       min-width: 300px;
       padding: 0 1rem;
+      display: flex;
+      flex-direction: column;
     }
+
     .comparison-col.left {
       border-right: 2px dashed #aaa;
     }
+
     .comparison-figure {
       margin-bottom: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      height: 100%;  /* Take full height of column */
     }
-    .comparison-figure img {
-      max-width: 100%;
+
+    /* New image container for equal heights */
+    .image-container {
+      width: 100%;
+      height: 300px;  /* Fixed height for both images */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: white;
       border-radius: 8px;
       border: 1px solid #ccc;
-      background: white;
       padding: 4px;
     }
+
+    .image-container img {
+      max-width: 100%;
+      max-height: 100%;
+      width: auto;
+      height: auto;
+      object-fit: contain;
+      border-radius: 4px;  /* Slightly smaller than container */
+    }
+
+    /* Keep your original caption style */
     .comparison-caption {
       font-size: 0.9rem;
       color: #555;
       margin-top: 0.3rem;
       text-align: center;
     }
+
+    /* Your subfigure styles remain unchanged */
     .subfigure-row {
       display: flex;
       gap: 1rem;
       justify-content: center;
       flex-wrap: wrap;
     }
+
     .subfigure {
       flex: 1;
       min-width: 200px;
@@ -143,6 +180,7 @@
   2026-03-16 ------Under Development------
 </div>
 
+<!-- Title section -->
 <section class="hero">
   <div class="hero-body">
     <div class="container is-fullhd">
@@ -183,9 +221,10 @@
   </div>
 </section>
 
-<!-- TL;DR / teaser -->
+
 <section class="hero teaser">
   <div class="container is-max-widescreen">
+    <!-- TL;DR / teaser -->
     <div class="column has-text-centered">
       <strong>TL;DR</strong>
       Are CLIP and SigLIP really “intra-modally misaligned”?
@@ -235,7 +274,68 @@
 
     <h2 class="title is-3 has-text-centered">The Reevaluation</h2> <!--Previous Claims ↔ Our Findings -->
 
-    <!-- 1. Cosine Similarity Distributions (Fig 2 vs Fig 5) -->
+    <!-- 1. Modality Inversion Approach (Fig 3) -->
+    <div class="comparison-row">
+      <div class="comparison-col left">
+        <h3 class="title is-5" style="text-align: center;">Previous (Fig. 3b – image‑image)</h3>
+        <div class="comparison-figure">
+          <div class="image-container">
+            <img src="media/figures/fig3/right.png" alt="Fig 3 left: image-image comparison">
+          </div>
+          <div class="comparison-caption">
+            <strong>Fig. 3 (left)</strong> – Direct image‑image similarity (allegedly misaligned).
+          </div>
+        </div>
+      </div>
+
+      <div class="comparison-col">
+        <h3 class="title is-5" style="text-align: center;">Ours (Fig. 3a – image‑text via PCA⁺)</h3>
+        <div class="comparison-figure">
+          <div class="image-container">
+            <img src="media/figures/fig3/left.png" alt="Fig 3 right: image-text comparison">
+          </div>
+          <div class="comparison-caption">
+            <strong>Fig. 3 (right)</strong> – Proposed workaround: convert image to text. Our PCA⁺ achieves the same effect without conversion.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. Degrees of Freedom (Fig 4 a-c vs d-f) -->
+    <div class="comparison-row">
+      <div class="comparison-col left">
+        <h3 class="title is-5" style="text-align: center;">Previous (Fig. 4a‑c)</h3>
+        <div class="comparison-figure">
+          <img src="media/figures/fig4/a.png" alt="Fig 4a" style="width:100%">
+          <div class="comparison-caption"><strong>(a)</strong> Oneo text anchor → two images can be close</div>
+        </div>
+        <div class="comparison-figure">
+          <img src="media/figures/fig4/b.png" alt="Fig 4b" style="width:100%">
+          <div class="comparison-caption"><strong>(b)</strong> … or far, while having same text‑image distance</div>
+        </div>
+        <div class="comparison-figure">
+          <img src="media/figures/fig4/c.png" alt="Fig 4c" style="width:100%">
+          <div class="comparison-caption"><strong>(c)</strong> Conclusion: a degree of freedom remains → misalignment possible.</div>
+        </div>
+      </div>
+      <div class="comparison-col">
+        <h3 class="title is-5" style="text-align: center;">Ours (Fig. 4d‑f)</h3>
+        <div class="comparison-figure">
+          <img src="media/figures/fig4/d.png" alt="Fig 4d" style="width:100%">
+          <div class="comparison-caption"><strong>(d)</strong> Multiple text anchors fix the position.</div>
+        </div>
+        <div class="comparison-figure">
+          <img src="media/figures/fig4/e.png" alt="Fig 4e" style="width:100%">
+          <div class="comparison-caption"><strong>(e)</strong> Distances are determined by all text anchors.</div>
+        </div>
+        <div class="comparison-figure">
+          <img src="media/figures/fig4/f.png" alt="Fig 4f" style="width:100%">
+          <div class="comparison-caption"><strong>(f)</strong> Intra‑modal similarities are a consequence of inter‑modal constraints – no extra degree of freedom.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3. Cosine Similarity Distributions (Fig 2 vs Fig 5) -->
     <div class="comparison-row">
       <div class="comparison-col left">
         <h3 class="title is-5" style="text-align: center;">Previous</h3>
@@ -256,12 +356,7 @@
         <div class="comparison-figure">
           <div class="subfigure-row">
             <div class="subfigure">
-              <img src="media/figures/siglip_by_class.png" alt="SigLIP class histograms" style="width:100%">
-              <div class="comparison-caption">SigLIP (inter‑modal only)</div>
-            </div>
-            <div class="subfigure">
               <img src="media/figures/siglip2_by_class.png" alt="SigLIP2 class histograms" style="width:100%">
-              <div class="comparison-caption">SigLIP2 (+ intra‑modal)</div>
             </div>
           </div>
           <div class="comparison-caption"><strong>Fig. 5 (left column)</strong> – Same/different class overlap is <em>equally present</em> in both models, showing it is not a CLIP‑specific misalignment.</div>
@@ -270,67 +365,12 @@
         <div class="comparison-figure">
           <div class="subfigure-row">
             <div class="subfigure">
-              <img src="media/figures/fig5_siglip_modality.png" alt="SigLIP modality histograms" style="width:100%">
-              <div class="comparison-caption">SigLIP (inter‑modal only)</div>
-            </div>
-            <div class="subfigure">
-              <img src="media/figures/fig5_siglip2_modality.png" alt="SigLIP2 modality histograms" style="width:100%">
-              <div class="comparison-caption">SigLIP2 (+ intra‑modal)</div>
+              <img src="media/figures/siglip2_by_mod.png" alt="SigLIP2 modality histograms" style="width:100%">
             </div>
           </div>
-          <div class="comparison-caption"><strong>Fig. 5 (right column)</strong> – The modality gap persists even with intra‑modal training, and does not harm image‑only performance.</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- 2. Modality Inversion Approach (Fig 3) -->
-    <div class="comparison-row">
-      <div class="comparison-col left">
-        <h3 class="title is-5" style="text-align: center;">Previous (Fig. 3b – image‑image)</h3>
-        <div class="comparison-figure">
-          <img src="media/figures/fig3_left.png" alt="Fig 3 left: image-image comparison" style="max-width:80%;">
-          <div class="comparison-caption"><strong>Fig. 3 (left)</strong> – Direct image‑image similarity (allegedly misaligned).</div>
-        </div>
-      </div>
-      <div class="comparison-col">
-        <h3 class="title is-5" style="text-align: center;">Ours (Fig. 3a – image‑text via PCA⁺)</h3>
-        <div class="comparison-figure">
-          <img src="media/figures/fig3_right.png" alt="Fig 3 right: image-text comparison" style="max-width:80%;">
-          <div class="comparison-caption"><strong>Fig. 3 (right)</strong> – Proposed workaround: convert image to text. Our PCA⁺ achieves the same effect without conversion.</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- 3. Degrees of Freedom (Fig 4 a-c vs d-f) -->
-    <div class="comparison-row">
-      <div class="comparison-col left">
-        <h3 class="title is-5" style="text-align: center;">Previous (Fig. 4a‑c)</h3>
-        <div class="comparison-figure">
-          <img src="media/figures/fig4_a.png" alt="Fig 4a" style="width:100%">
-          <div class="comparison-caption"><strong>(a)</strong> One text anchor → two images can be close</div>
-        </div>
-        <div class="comparison-figure">
-          <img src="media/figures/fig4_b.png" alt="Fig 4b" style="width:100%">
-          <div class="comparison-caption"><strong>(b)</strong> … or far, while having same text‑image distance</div>
-        </div>
-        <div class="comparison-figure">
-          <img src="media/figures/fig4_c.png" alt="Fig 4c" style="width:100%">
-          <div class="comparison-caption"><strong>(c)</strong> Conclusion: a degree of freedom remains → misalignment possible.</div>
-        </div>
-      </div>
-      <div class="comparison-col">
-        <h3 class="title is-5" style="text-align: center;">Ours (Fig. 4d‑f)</h3>
-        <div class="comparison-figure">
-          <img src="media/figures/fig4_d.png" alt="Fig 4d" style="width:100%">
-          <div class="comparison-caption"><strong>(d)</strong> Multiple text anchors fix the position.</div>
-        </div>
-        <div class="comparison-figure">
-          <img src="media/figures/fig4_e.png" alt="Fig 4e" style="width:100%">
-          <div class="comparison-caption"><strong>(e)</strong> Distances are determined by all text anchors.</div>
-        </div>
-        <div class="comparison-figure">
-          <img src="media/figures/fig4_f.png" alt="Fig 4f" style="width:100%">
-          <div class="comparison-caption"><strong>(f)</strong> Intra‑modal similarities are a consequence of inter‑modal constraints – no extra degree of freedom.</div>
+          <div class="comparison-caption"><strong>Fig. 5 (right column)</strong> –
+            The modality gap persists even with intra‑modal training, and does not harm image‑only performance.
+          </div>
         </div>
       </div>
     </div>
