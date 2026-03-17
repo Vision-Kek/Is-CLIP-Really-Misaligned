@@ -1,0 +1,41 @@
+
+Running config
+:{'classifier': 'prototype', 'project': False, 'use_text': True, 'data_root_path': 'datasets', 'dataset': 'dtd', 'backbone': 'RN50', 'subsample_classes': 'all'}
+
+Creating a 1-shot dataset
+seed=1, shot=1, acc=33.69
+Creating a 2-shot dataset
+seed=1, shot=2, acc=43.79
+Creating a 4-shot dataset
+seed=1, shot=4, acc=52.84
+Creating a 8-shot dataset
+seed=1, shot=8, acc=58.75
+Creating a 16-shot dataset
+seed=1, shot=16, acc=60.34
+Creating a 1-shot dataset
+seed=2, shot=1, acc=36.52
+Creating a 2-shot dataset
+seed=2, shot=2, acc=50.06
+Creating a 4-shot dataset
+seed=2, shot=4, acc=53.90
+Creating a 8-shot dataset
+seed=2, shot=8, acc=57.62
+Creating a 16-shot dataset
+seed=2, shot=16, acc=60.17
+Creating a 1-shot dataset
+seed=3, shot=1, acc=38.65
+Creating a 2-shot dataset
+seed=3, shot=2, acc=41.49
+Creating a 4-shot dataset
+seed=3, shot=4, acc=51.60
+Creating a 8-shot dataset
+seed=3, shot=8, acc=57.92
+Creating a 16-shot dataset
+seed=3, shot=16, acc=61.17
+{'classifier': 'prototype', 'project': False, 'use_text': True, 'data_root_path': 'datasets', 'dataset': 'dtd', 'backbone': 'RN50', 'subsample_classes': 'all', 'shots': 16}
+Evaluate on seeds=[1, 2, 3]
+Evaluate on shots=[1, 2, 4, 8, 16]
+seed=1 [33.68794250488281, 43.79432678222656, 52.83687973022461, 58.74704360961914, 60.34278869628906]
+seed=2 [36.52482223510742, 50.05910110473633, 53.90071105957031, 57.624114990234375, 60.16548538208008]
+seed=3 [38.65248107910156, 41.48936080932617, 51.59574508666992, 57.919620513916016, 61.17021179199219]
+Average:  tensor([36.2884, 45.1143, 52.7778, 58.0969, 60.5595])

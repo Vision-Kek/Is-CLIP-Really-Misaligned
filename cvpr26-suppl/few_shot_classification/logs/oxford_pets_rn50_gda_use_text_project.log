@@ -1,0 +1,42 @@
+
+Running config
+:{'classifier': 'gda', 'project': True, 'use_text': True, 'data_root_path': 'datasets', 'dataset': 'oxford_pets', 'backbone': 'RN50', 'subsample_classes': 'all'}
+
+Loading imagenet text span from data/text_features/imagenet/RN50.pt
+Creating a 1-shot dataset
+seed=1, shot=1, acc=2.67
+Creating a 2-shot dataset
+seed=1, shot=2, acc=49.22
+Creating a 4-shot dataset
+seed=1, shot=4, acc=66.26
+Creating a 8-shot dataset
+seed=1, shot=8, acc=78.47
+Creating a 16-shot dataset
+seed=1, shot=16, acc=83.46
+Creating a 1-shot dataset
+seed=2, shot=1, acc=2.67
+Creating a 2-shot dataset
+seed=2, shot=2, acc=53.12
+Creating a 4-shot dataset
+seed=2, shot=4, acc=66.69
+Creating a 8-shot dataset
+seed=2, shot=8, acc=76.34
+Creating a 16-shot dataset
+seed=2, shot=16, acc=84.33
+Creating a 1-shot dataset
+seed=3, shot=1, acc=2.67
+Creating a 2-shot dataset
+seed=3, shot=2, acc=47.15
+Creating a 4-shot dataset
+seed=3, shot=4, acc=64.05
+Creating a 8-shot dataset
+seed=3, shot=8, acc=75.74
+Creating a 16-shot dataset
+seed=3, shot=16, acc=83.57
+{'classifier': 'gda', 'project': True, 'use_text': True, 'data_root_path': 'datasets', 'dataset': 'oxford_pets', 'backbone': 'RN50', 'subsample_classes': 'all', 'shots': 16}
+Evaluate on seeds=[1, 2, 3]
+Evaluate on shots=[1, 2, 4, 8, 16]
+seed=1 [2.671027421951294, 49.22322082519531, 66.2578353881836, 78.46824645996094, 83.45597839355469]
+seed=2 [2.671027421951294, 53.1207389831543, 66.69392395019531, 76.34232330322266, 84.32815551757812]
+seed=3 [2.671027421951294, 47.15180969238281, 64.0501480102539, 75.74270629882812, 83.56500244140625]
+Average:  tensor([ 2.6710, 49.8319, 65.6673, 76.8511, 83.7830])

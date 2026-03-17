@@ -1,0 +1,41 @@
+
+Running config
+:{'classifier': 'prototype', 'project': False, 'use_text': False, 'data_root_path': 'datasets', 'dataset': 'eurosat', 'backbone': 'dinov3_vitl16', 'subsample_classes': 'all'}
+
+Creating a 1-shot dataset
+seed=1, shot=1, acc=65.70
+Creating a 2-shot dataset
+seed=1, shot=2, acc=72.37
+Creating a 4-shot dataset
+seed=1, shot=4, acc=78.01
+Creating a 8-shot dataset
+seed=1, shot=8, acc=84.58
+Creating a 16-shot dataset
+seed=1, shot=16, acc=87.74
+Creating a 1-shot dataset
+seed=2, shot=1, acc=53.93
+Creating a 2-shot dataset
+seed=2, shot=2, acc=73.38
+Creating a 4-shot dataset
+seed=2, shot=4, acc=76.58
+Creating a 8-shot dataset
+seed=2, shot=8, acc=86.01
+Creating a 16-shot dataset
+seed=2, shot=16, acc=87.46
+Creating a 1-shot dataset
+seed=3, shot=1, acc=59.85
+Creating a 2-shot dataset
+seed=3, shot=2, acc=68.58
+Creating a 4-shot dataset
+seed=3, shot=4, acc=76.53
+Creating a 8-shot dataset
+seed=3, shot=8, acc=87.85
+Creating a 16-shot dataset
+seed=3, shot=16, acc=88.37
+{'classifier': 'prototype', 'project': False, 'use_text': False, 'data_root_path': 'datasets', 'dataset': 'eurosat', 'backbone': 'dinov3_vitl16', 'subsample_classes': 'all', 'shots': 16}
+Evaluate on seeds=[1, 2, 3]
+Evaluate on shots=[1, 2, 4, 8, 16]
+seed=1 [65.70370483398438, 72.37036895751953, 78.01234436035156, 84.58024597167969, 87.74073791503906]
+seed=2 [53.925926208496094, 73.3827133178711, 76.58024597167969, 86.01234436035156, 87.456787109375]
+seed=3 [59.85185241699219, 68.58024597167969, 76.5308609008789, 87.85185241699219, 88.37036895751953]
+Average:  tensor([59.8272, 71.4444, 77.0411, 86.1482, 87.8560])

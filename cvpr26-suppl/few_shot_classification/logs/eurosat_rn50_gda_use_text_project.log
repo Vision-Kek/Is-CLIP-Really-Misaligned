@@ -1,0 +1,42 @@
+
+Running config
+:{'classifier': 'gda', 'project': True, 'use_text': True, 'data_root_path': 'datasets', 'dataset': 'eurosat', 'backbone': 'RN50', 'subsample_classes': 'all'}
+
+Loading imagenet text span from data/text_features/imagenet/RN50.pt
+Creating a 1-shot dataset
+seed=1, shot=1, acc=11.11
+Creating a 2-shot dataset
+seed=1, shot=2, acc=63.32
+Creating a 4-shot dataset
+seed=1, shot=4, acc=73.59
+Creating a 8-shot dataset
+seed=1, shot=8, acc=77.01
+Creating a 16-shot dataset
+seed=1, shot=16, acc=81.98
+Creating a 1-shot dataset
+seed=2, shot=1, acc=11.11
+Creating a 2-shot dataset
+seed=2, shot=2, acc=57.49
+Creating a 4-shot dataset
+seed=2, shot=4, acc=72.32
+Creating a 8-shot dataset
+seed=2, shot=8, acc=80.06
+Creating a 16-shot dataset
+seed=2, shot=16, acc=81.27
+Creating a 1-shot dataset
+seed=3, shot=1, acc=11.11
+Creating a 2-shot dataset
+seed=3, shot=2, acc=54.99
+Creating a 4-shot dataset
+seed=3, shot=4, acc=71.33
+Creating a 8-shot dataset
+seed=3, shot=8, acc=79.16
+Creating a 16-shot dataset
+seed=3, shot=16, acc=84.49
+{'classifier': 'gda', 'project': True, 'use_text': True, 'data_root_path': 'datasets', 'dataset': 'eurosat', 'backbone': 'RN50', 'subsample_classes': 'all', 'shots': 16}
+Evaluate on seeds=[1, 2, 3]
+Evaluate on shots=[1, 2, 4, 8, 16]
+seed=1 [11.11111068725586, 63.320987701416016, 73.59259033203125, 77.01234436035156, 81.97531127929688]
+seed=2 [11.11111068725586, 57.49382781982422, 72.32098388671875, 80.06172943115234, 81.2716064453125]
+seed=3 [11.11111068725586, 54.98765563964844, 71.33333587646484, 79.16049194335938, 84.49382781982422]
+Average:  tensor([11.1111, 58.6008, 72.4156, 78.7449, 82.5803])

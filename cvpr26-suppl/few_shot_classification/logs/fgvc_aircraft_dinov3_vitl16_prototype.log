@@ -1,0 +1,41 @@
+
+Running config
+:{'classifier': 'prototype', 'project': False, 'use_text': False, 'data_root_path': 'datasets', 'dataset': 'fgvc_aircraft', 'backbone': 'dinov3_vitl16', 'subsample_classes': 'all'}
+
+Creating a 1-shot dataset
+seed=1, shot=1, acc=40.08
+Creating a 2-shot dataset
+seed=1, shot=2, acc=42.90
+Creating a 4-shot dataset
+seed=1, shot=4, acc=48.84
+Creating a 8-shot dataset
+seed=1, shot=8, acc=51.82
+Creating a 16-shot dataset
+seed=1, shot=16, acc=54.19
+Creating a 1-shot dataset
+seed=2, shot=1, acc=38.13
+Creating a 2-shot dataset
+seed=2, shot=2, acc=44.64
+Creating a 4-shot dataset
+seed=2, shot=4, acc=48.36
+Creating a 8-shot dataset
+seed=2, shot=8, acc=51.37
+Creating a 16-shot dataset
+seed=2, shot=16, acc=56.62
+Creating a 1-shot dataset
+seed=3, shot=1, acc=41.28
+Creating a 2-shot dataset
+seed=3, shot=2, acc=45.51
+Creating a 4-shot dataset
+seed=3, shot=4, acc=49.02
+Creating a 8-shot dataset
+seed=3, shot=8, acc=50.53
+Creating a 16-shot dataset
+seed=3, shot=16, acc=54.13
+{'classifier': 'prototype', 'project': False, 'use_text': False, 'data_root_path': 'datasets', 'dataset': 'fgvc_aircraft', 'backbone': 'dinov3_vitl16', 'subsample_classes': 'all', 'shots': 16}
+Evaluate on seeds=[1, 2, 3]
+Evaluate on shots=[1, 2, 4, 8, 16]
+seed=1 [40.084007263183594, 42.90428924560547, 48.84488296508789, 51.81517791748047, 54.18541717529297]
+seed=2 [38.133811950683594, 44.64446258544922, 48.36483383178711, 51.365135192871094, 56.615657806396484]
+seed=3 [41.28412628173828, 45.514549255371094, 49.02490234375, 50.52505111694336, 54.12541198730469]
+Average:  tensor([39.8340, 44.3544, 48.7449, 51.2351, 54.9755])

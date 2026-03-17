@@ -1,0 +1,42 @@
+
+Running config
+:{'classifier': 'prototype', 'project': True, 'use_text': True, 'data_root_path': 'datasets', 'dataset': 'stanford_cars', 'backbone': 'RN50', 'subsample_classes': 'all'}
+
+Loading imagenet text span from data/text_features/imagenet/RN50.pt
+Creating a 1-shot dataset
+seed=1, shot=1, acc=40.92
+Creating a 2-shot dataset
+seed=1, shot=2, acc=51.73
+Creating a 4-shot dataset
+seed=1, shot=4, acc=60.49
+Creating a 8-shot dataset
+seed=1, shot=8, acc=65.03
+Creating a 16-shot dataset
+seed=1, shot=16, acc=69.78
+Creating a 1-shot dataset
+seed=2, shot=1, acc=42.23
+Creating a 2-shot dataset
+seed=2, shot=2, acc=52.31
+Creating a 4-shot dataset
+seed=2, shot=4, acc=60.22
+Creating a 8-shot dataset
+seed=2, shot=8, acc=65.51
+Creating a 16-shot dataset
+seed=2, shot=16, acc=69.27
+Creating a 1-shot dataset
+seed=3, shot=1, acc=39.04
+Creating a 2-shot dataset
+seed=3, shot=2, acc=50.13
+Creating a 4-shot dataset
+seed=3, shot=4, acc=59.45
+Creating a 8-shot dataset
+seed=3, shot=8, acc=65.55
+Creating a 16-shot dataset
+seed=3, shot=16, acc=69.34
+{'classifier': 'prototype', 'project': True, 'use_text': True, 'data_root_path': 'datasets', 'dataset': 'stanford_cars', 'backbone': 'RN50', 'subsample_classes': 'all', 'shots': 16}
+Evaluate on seeds=[1, 2, 3]
+Evaluate on shots=[1, 2, 4, 8, 16]
+seed=1 [40.91530990600586, 51.734859466552734, 60.489990234375, 65.02922821044922, 69.7798843383789]
+seed=2 [42.23355484008789, 52.30693054199219, 60.216392517089844, 65.51424407958984, 69.2699966430664]
+seed=3 [39.03743362426758, 50.130584716796875, 59.44534683227539, 65.55155181884766, 69.34461212158203]
+Average:  tensor([40.7288, 51.3908, 60.0506, 65.3650, 69.4648])

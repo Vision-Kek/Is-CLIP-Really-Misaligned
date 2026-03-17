@@ -1,0 +1,42 @@
+
+Running config
+:{'classifier': 'gda', 'project': True, 'use_text': True, 'data_root_path': 'datasets', 'dataset': 'fgvc_aircraft', 'backbone': 'RN50', 'subsample_classes': 'all'}
+
+Loading imagenet text span from data/text_features/imagenet/RN50.pt
+Creating a 1-shot dataset
+seed=1, shot=1, acc=0.99
+Creating a 2-shot dataset
+seed=1, shot=2, acc=15.63
+Creating a 4-shot dataset
+seed=1, shot=4, acc=22.71
+Creating a 8-shot dataset
+seed=1, shot=8, acc=30.33
+Creating a 16-shot dataset
+seed=1, shot=16, acc=34.98
+Creating a 1-shot dataset
+seed=2, shot=1, acc=0.99
+Creating a 2-shot dataset
+seed=2, shot=2, acc=17.82
+Creating a 4-shot dataset
+seed=2, shot=4, acc=23.64
+Creating a 8-shot dataset
+seed=2, shot=8, acc=28.56
+Creating a 16-shot dataset
+seed=2, shot=16, acc=34.92
+Creating a 1-shot dataset
+seed=3, shot=1, acc=0.99
+Creating a 2-shot dataset
+seed=3, shot=2, acc=17.04
+Creating a 4-shot dataset
+seed=3, shot=4, acc=21.27
+Creating a 8-shot dataset
+seed=3, shot=8, acc=29.76
+Creating a 16-shot dataset
+seed=3, shot=16, acc=34.71
+{'classifier': 'gda', 'project': True, 'use_text': True, 'data_root_path': 'datasets', 'dataset': 'fgvc_aircraft', 'backbone': 'RN50', 'subsample_classes': 'all', 'shots': 16}
+Evaluate on seeds=[1, 2, 3]
+Evaluate on shots=[1, 2, 4, 8, 16]
+seed=1 [0.9900989532470703, 15.631562232971191, 22.712270736694336, 30.333032608032227, 34.983497619628906]
+seed=2 [0.9900989532470703, 17.821781158447266, 23.642362594604492, 28.562854766845703, 34.923492431640625]
+seed=3 [0.9900989532470703, 17.041704177856445, 21.272127151489258, 29.762975692749023, 34.713470458984375]
+Average:  tensor([ 0.9901, 16.8317, 22.5423, 29.5530, 34.8735])

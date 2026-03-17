@@ -1,0 +1,41 @@
+
+Running config
+:{'classifier': 'gda', 'project': False, 'use_text': False, 'data_root_path': 'datasets', 'dataset': 'dtd', 'backbone': 'dinov3_vitl16', 'subsample_classes': 'all'}
+
+Creating a 1-shot dataset
+seed=1, shot=1, acc=2.13
+Creating a 2-shot dataset
+seed=1, shot=2, acc=51.60
+Creating a 4-shot dataset
+seed=1, shot=4, acc=64.48
+Creating a 8-shot dataset
+seed=1, shot=8, acc=73.35
+Creating a 16-shot dataset
+seed=1, shot=16, acc=74.59
+Creating a 1-shot dataset
+seed=2, shot=1, acc=2.13
+Creating a 2-shot dataset
+seed=2, shot=2, acc=56.97
+Creating a 4-shot dataset
+seed=2, shot=4, acc=65.60
+Creating a 8-shot dataset
+seed=2, shot=8, acc=70.86
+Creating a 16-shot dataset
+seed=2, shot=16, acc=74.70
+Creating a 1-shot dataset
+seed=3, shot=1, acc=2.13
+Creating a 2-shot dataset
+seed=3, shot=2, acc=54.43
+Creating a 4-shot dataset
+seed=3, shot=4, acc=64.72
+Creating a 8-shot dataset
+seed=3, shot=8, acc=72.40
+Creating a 16-shot dataset
+seed=3, shot=16, acc=77.42
+{'classifier': 'gda', 'project': False, 'use_text': False, 'data_root_path': 'datasets', 'dataset': 'dtd', 'backbone': 'dinov3_vitl16', 'subsample_classes': 'all', 'shots': 16}
+Evaluate on seeds=[1, 2, 3]
+Evaluate on shots=[1, 2, 4, 8, 16]
+seed=1 [2.127659559249878, 51.59574508666992, 64.47990417480469, 73.34515380859375, 74.58628845214844]
+seed=2 [2.127659559249878, 56.973995208740234, 65.60283660888672, 70.86288452148438, 74.7044906616211]
+seed=3 [2.127659559249878, 54.43262481689453, 64.71630859375, 72.39952850341797, 77.42316436767578]
+Average:  tensor([ 2.1277, 54.3341, 64.9330, 72.2025, 75.5713])
