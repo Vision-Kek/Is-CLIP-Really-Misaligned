@@ -779,15 +779,15 @@
     </p>
     <div class="table-wrapper">
     <table class="table is-bordered is-striped is-hoverable">
-  <style>
+    <style>
     .dataset, .dataset strong {
       color: #6c757d; /* gray */
     }
     .average, .average strong {
       color: #000000; /* black */
     }
-  </style>
-  <thead>
+    </style>
+    <thead>
     <tr>
       <th>Model</th>
       <th>Method</th>
@@ -806,8 +806,8 @@
       <th class="dataset">SUN397</th>
       <th class="dataset">UCF101</th>
     </tr>
-  </thead>
-  <tbody>
+    </thead>
+    <tbody>
     <!-- CLIP B/32 -->
     <tr>
       <td rowspan="3">CLIP B/32</td>
@@ -1006,39 +1006,42 @@
       <td class="dataset"><strong>48.9</strong></td>
       <td class="dataset"><strong>63.0</strong></td>
     </tr>
-  </tbody>
-</table>
+    </tbody>
+    </table>
     </div>
 
-    <hr class="rounded">
+  <!-- References -->
+    <div class="content" style="background: #f9f9f9; padding: 1.5rem; border-radius: 20px; font-size: 0.8rem;">
+      <p style="margin-bottom: 0.3rem;">[1] Mistretta et al.: "Cross the gap: Exposing the intra-modal misalignment in clip via modality inversion", ICLR 2025.</p>
+      <p style="margin-bottom: 0.3rem;">[2] Yi et al.: "Leveraging cross-modal neighbor representation for improved clip classification", CVPR 2024.</p>
+      <p>[3] Udandarao et al.: "Training-free name-only transfer of vision-language models", CVPR 2023.</p>
+    </div>
+
+  <hr class="rounded">
 
     <!-- Take Home Messages (keep as before) -->
     <h2 class="title is-3">Take Home Messages</h2>
     <div class="takehome">
-      <h4>🔍 Finding 1 – Image-image distances are constrained</h4>
+      <h4>🧩 Finding 1 – Image-image distances are constrained</h4>
       <p class="has-text-justified">...</p>
     </div>
     <div class="takehome">
-      <h4>📊 Finding 2 – Histogram indicators do not document misalignment</h4>
-      <p class="has-text-justified">...</p>
+      <h4>🔍 Finding 2 – With or without intra-modal loss, we didn't find a diff </h4>
+      <p class="has-text-justified">We didn't find significant differences between models with and without intra-modal training objective.
+      So we have no reason to believe that a missing intra-modal objective causes intra-modal misalignment.</p>
     </div>
     <div class="takehome">
       <h4>🚀 Finding 3 – Basic few-shot methods are competitive</h4>
-      <p class="has-text-justified">...</p>
+      <p class="has-text-justified">For few-shot classification, some classic machine learning techniques like linear discriminant analysis (LDA) work quite well on the raw image embeddings. It doesn't seem concerning.</p>
     </div>
     <div class="takehome">
-      <h4>🧩 Finding 4 – Dropping class-irrelevant information explains and exceeds previous results</h4>
-      <p class="has-text-justified">...</p>
+      <h4>📊 Finding 4 – Dropping class-irrelevant information explains and exceeds previous results</h4>
+      <p class="has-text-justified">Removing visual details from the embedding removes information that's spurious w.r.t. the class label.
+          It thus mitigates task ambiguity in the few-shot setting. This is why some previous attempts worked.
+          And this is what our $PCA^\leftarrow$ does.</p>
     </div>
 
     <hr class="rounded">
-
-    <!-- References -->
-    <div class="content" style="background: #f9f9f9; padding: 1.5rem; border-radius: 20px;">
-      <p style="font-size: 0.9rem; margin-bottom: 0.3rem;">[1] Mistretta et al.: "Cross the gap: Exposing the intra-modal misalignment in clip via modality inversion", ICLR 2025.</p>
-      <p style="font-size: 0.9rem; margin-bottom: 0.3rem;">[2] Yi et al.: "Leveraging cross-modal neighbor representation for improved clip classification", CVPR 2024.</p>
-      <p style="font-size: 0.9rem;">[3] Udandarao et al.: "Training-free name-only transfer of vision-language models", CVPR 2023.</p>
-    </div>
 
     <!-- BibTeX -->
     <h2 class="title is-3">BibTeX</h2>
