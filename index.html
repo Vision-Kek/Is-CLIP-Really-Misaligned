@@ -425,7 +425,7 @@
 
 <!-- Development Ribbon -->
 <div class="ribbon is-warning" style="background: #ffdd57; color:#222; padding: 0.75rem; text-align: center;">
-  2026-03-17 🚧🚧Under Development. Contains some AI slop dummy text currently.🚧🚧
+  2026-03-18 🚧🚧Under Development. May contain inaccuracies.🚧🚧
 </div>
 
 <!-- Title section -->
@@ -452,7 +452,7 @@
           <div class="button-container">
             <div class="column has-text-centered">
               <div class="publication-links is-flex is-flex-wrap-wrap is-justify-content-center is-align-items-center" style="gap: 0.75rem;">
-                <a href="https://arxiv.org/abs/2603.12345" target="_blank" class="external-link button is-normal is-rounded is-dark">
+                <a href="https://arxiv.org/abs/2603.16100" target="_blank" class="external-link button is-normal is-rounded is-dark">
                   <span class="icon"><i class="ai ai-arxiv"></i></span>
                   <span>arXiv</span>
                 </a>
@@ -521,7 +521,133 @@
 
     <h2 class="title is-3 has-text-centered">The Reevaluation</h2>
 
-    <!-- 1. Modality Inversion Approach (Fig 3) -->
+    <!-- 1. Degrees of Freedom (Fig 4 a-c vs d-f) -->
+    <div class="comparison-row">
+      <div class="comparison-col left">
+        <h3 class="title is-5" style="text-align: center;">Previous Concern (Fig. 4a-c)</h3>
+          <!-- This is the element with the caption you want to adjust -->
+        <div class="comparison-figure" style="flex: 1 1 100px; margin-bottom: 0;"> <!-- Remove bottom margin completely -->
+          <img src="media/figures/fig4/legend.png" alt="Fig 4a" style="width:50%; display: block; margin: 0 auto;">
+          <div class="comparison-caption" style="margin-bottom: 0; padding-bottom: 0;">
+            Two image embeddings with same distance $r$ to a text embedding...
+          </div>
+        </div>
+        <!-- Container for side-by-side Fig 4a and 4b with negative top margin to pull it up -->
+        <div style="display: flex; gap: 20px; margin-bottom: 20px; flex-wrap: wrap; margin-top: -40px;"> <!-- Negative margin to reduce space -->
+          <div class="comparison-figure" style="flex: 1 1 200px;">
+            <img src="media/figures/fig4/a.png" alt="Fig 4a" style="width:100%">
+            <div class="comparison-caption"><strong>(a)</strong> ...can be close together</div>
+          </div>
+          <div class="comparison-figure" style="flex: 1 1 200px;">
+            <img src="media/figures/fig4/b.png" alt="Fig 4b" style="width:100%">
+            <div class="comparison-caption"><strong>(b)</strong> ... or far apart</div>
+          </div>
+        </div>
+          <div class="comparison-figure">
+          <img src="media/figures/fig4/c.png" alt="Fig 4c" style="width:100%">
+          <div class="comparison-caption"><strong>(c)</strong> Previous conclusion: a degree of freedom remains → image-image misalignment possible.
+              Image embeddings can lie on any arbitrary points on the circumference, leaving a degree of freedom for intra-modal miscalibration.</div>
+        </div>
+      </div>
+
+      <div class="comparison-col">
+        <h3 class="title is-5" style="text-align: center;">Our Explanation (Fig. 4d-f)</h3>
+
+        <!-- Container for side-by-side Fig 4d and 4e with shared caption -->
+        <div style="margin-bottom: 20px;">
+          <div style="display: flex; gap: 20px; flex-wrap: wrap;">
+            <div class="comparison-figure" style="flex: 1 1 200px;">
+              <img src="media/figures/fig4/d.png" alt="Fig 4d" style="width:100%">
+            </div>
+            <div class="comparison-figure" style="flex: 1 1 200px;">
+              <img src="media/figures/fig4/e.png" alt="Fig 4e" style="width:100%">
+            </div>
+          </div>
+          <!-- Shared caption for Figs 4d and 4e -->
+          <div class="comparison-caption" style="margin-top: 8px;">
+            <strong>(d,e)</strong> The two different configurations in (a) and (b) are not arbitrary, but have a good reason to exist: Images in (a,d) and (b,e) have equal distance \(r\) to the "cat" text, but the two images in (a,d) are much more similar to each other than those in (b,e). Displayed distance values are real measurements.
+          </div>
+        </div>
+
+        <!-- Fig 4f with its own caption -->
+        <div class="comparison-figure">
+          <img src="media/figures/fig4/f.png" alt="Fig 4f" style="width:100%">
+          <div class="comparison-caption"><strong>(f)</strong> Intra‑modal similarities are a consequence of inter‑modal similarities – no extra degree of freedom. The previous line of argumentation overlooks that each image embedding is bound to more than one text after training.</div>
+        </div>
+      </div>
+    </div>
+
+   <!-- 2. Cosine Similarity Distributions (Fig 2 vs Fig 5) -->
+<div class="comparison-row">
+  <div class="comparison-col left">
+    <h3 class="title is-5" style="text-align: center;">Previous Concern (Fig. 2)</h3>
+    <!-- Row 1: Class similarities - with fixed height container -->
+    <div class="comparison-figure" style="display: flex; flex-direction: column; height: 100%; margin-bottom: 1.5rem;">
+      <div style="flex: 1; display: flex; flex-direction: column;">
+        <div style="background: white; border-radius: 8px; border: 1px solid #ccc; padding: 4px; display: flex; justify-content: center; align-items: center; min-height: 200px;">
+          <img src="media/figures/fig2/by_class.png" alt="Fig 2 (by class): class histograms" onerror="this.src='media/figures/cosimhist_previous.png'" style="max-width: 100%; max-height: 100%; width: auto; height: auto; object-fit: contain; border-radius: 4px;">
+        </div>
+        <div class="comparison-caption" style="margin-top: 0.5rem;"><strong>Figure 2 (by class).</strong> Pairwise cosine similarity distributions. Left: Similarities between same class (blue) and opposite class (orange) image feature pairs. A high overlap ratio between the two colors was previously highlighted as an indicator for an intra-modal misalignment issue in CLIP.</div>
+      </div>
+    </div>
+
+    <!-- Row 2: Modality similarities - with fixed height container -->
+    <div class="comparison-figure" style="display: flex; flex-direction: column; height: 100%;">
+      <div style="flex: 1; display: flex; flex-direction: column;">
+        <div style="background: white; border-radius: 8px; border: 1px solid #ccc; padding: 4px; display: flex; justify-content: center; align-items: center; min-height: 200px;">
+          <img src="media/figures/fig2/by_mod.png" alt="Fig 2 (by modality): modality histograms" onerror="this.src='media/figures/cosimhist_previous.png'" style="max-width: 100%; max-height: 100%; width: auto; height: auto; object-fit: contain; border-radius: 4px;">
+        </div>
+        <div class="comparison-caption" style="margin-top: 0.5rem;"><strong>Figure 2 (by modality).</strong> Similarity distributions of image-text pairs (purple) versus image-image pairs (green). Because CLIP is only supervised on the former, the divergence has previously prompted concerns about whether the latter reflect true similarities.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="comparison-col">
+    <h3 class="title is-5" style="text-align: center;">Our Finding (Fig. 5)</h3>
+    <!-- Row 1: Class similarities (SigLIP and SigLIP2) - with fixed height container -->
+    <div class="comparison-figure" style="display: flex; flex-direction: column; height: 100%; margin-bottom: 1.5rem;">
+      <div style="flex: 1; display: flex; flex-direction: column;">
+        <div class="subfigure-row" style="display: flex; gap: 1rem; flex-wrap: wrap;">
+          <div class="subfigure" style="flex: 1 1 45%; min-width: 200px;">
+            <div style="background: white; border-radius: 8px; border: 1px solid #ccc; padding: 4px; display: flex; justify-content: center; align-items: center; min-height: 180px;">
+              <img src="media/figures/siglip_by_class.png" alt="SigLIP class histograms" style="max-width: 100%; max-height: 100%; width: auto; height: auto; object-fit: contain; border-radius: 4px;">
+            </div>
+            <div class="comparison-caption" style="margin-top: 0.2rem;"><strong>SigLIP</strong> (inter-modal only)</div>
+          </div>
+          <div class="subfigure" style="flex: 1 1 45%; min-width: 200px;">
+            <div style="background: white; border-radius: 8px; border: 1px solid #ccc; padding: 4px; display: flex; justify-content: center; align-items: center; min-height: 180px;">
+              <img src="media/figures/siglip2_by_class.png" alt="SigLIP2 class histograms" style="max-width: 100%; max-height: 100%; width: auto; height: auto; object-fit: contain; border-radius: 4px;">
+            </div>
+            <div class="comparison-caption" style="margin-top: 0.2rem;"><strong>SigLIP2</strong> (with intra-modal objective)</div>
+          </div>
+        </div>
+        <div class="comparison-caption" style="margin-top: 0.5rem;"><strong>Figure 5 (by class).</strong> Cosine similarity histograms by class. The distributions are almost equal for purely text-image trained SigLIP (left) and SigLIP2 (right) which includes an image-image self-supervised objective as in the DINO line of work. This indicates intra-class variation is no sign of misalignment brought by pure text-image training, but rather normal behavior.</div>
+      </div>
+    </div>
+
+    <!-- Row 2: Modality similarities (SigLIP and SigLIP2) - with fixed height container -->
+    <div class="comparison-figure" style="display: flex; flex-direction: column; height: 100%;">
+      <div style="flex: 1; display: flex; flex-direction: column;">
+        <div class="subfigure-row" style="display: flex; gap: 1rem; flex-wrap: wrap;">
+          <div class="subfigure" style="flex: 1 1 45%; min-width: 200px;">
+            <div style="background: white; border-radius: 8px; border: 1px solid #ccc; padding: 4px; display: flex; justify-content: center; align-items: center; min-height: 180px;">
+              <img src="media/figures/siglip_by_mod.png" alt="SigLIP modality histograms" style="max-width: 100%; max-height: 100%; width: auto; height: auto; object-fit: contain; border-radius: 4px;">
+            </div>
+            <div class="comparison-caption" style="margin-top: 0.2rem;"><strong>SigLIP</strong> (inter-modal only)</div>
+          </div>
+          <div class="subfigure" style="flex: 1 1 45%; min-width: 200px;">
+            <div style="background: white; border-radius: 8px; border: 1px solid #ccc; padding: 4px; display: flex; justify-content: center; align-items: center; min-height: 180px;">
+              <img src="media/figures/siglip2_by_mod.png" alt="SigLIP2 modality histograms" style="max-width: 100%; max-height: 100%; width: auto; height: auto; object-fit: contain; border-radius: 4px;">
+            </div>
+            <div class="comparison-caption" style="margin-top: 0.2rem;"><strong>SigLIP2</strong> (with intra-modal objective)</div>
+          </div>
+        </div>
+        <div class="comparison-caption" style="margin-top: 0.5rem;"><strong>Figure 5 (by modality).</strong> Cosine similarity histograms by modality. The divergence in similarity distributions between inter-modal (image-text) and intra-modal (image-image) pairs is nearly identical for both models. The fact that SigLIP2's additional image-image training does not close this gap demonstrates this is not a misalignment introduced by a missing image-image objective.</div>
+      </div>
+    </div>
+  </div>
+</div>
+    <!-- 3. Modality Inversion Approach (Fig 3) -->
     <div class="comparison-row" style="display: flex; flex-wrap: wrap; margin: 1rem 0 2rem 0; border: 1px solid #e0e0e0; border-radius: 12px; background: #fafafa; padding: 1.5rem; width: 100%;">
       <div class="comparison-col left" style="flex: 1 1 300px; min-width: 300px; padding: 0 1rem; display: flex; flex-direction: column; border-right: 2px dashed #aaa;">
         <h3 class="title is-5" style="text-align: center;" id="oti">Previous "Workaround" (Fig. 3r)</h3>
@@ -530,7 +656,7 @@
             <img src="media/figures/fig3/right.png" alt="Fig 3 right: image-text comparison" style="max-width: 100%; max-height: 100%; width: auto; height: auto; object-fit: contain; border-radius: 4px;">
           </div>
           <div class="comparison-caption" style="font-size: 0.9rem; color: #555; margin-top: 0.5rem; text-align: left;">
-            <strong>Figure 3 (r).</strong> Motivated by the intra-modal misalignment hypothesis, previous work [1] posited it is necessary to convert image-image comparison into image-text comparison.
+            <strong>Figure 3 (r).</strong> Motivated by the intra-modal misalignment hypothesis, a previous work posited it is necessary to convert image-image comparison into image-text comparison.
           </div>
         </div>
       </div>
@@ -542,7 +668,7 @@
             <img src="media/figures/fig3/left.png" alt="Fig 3 left: image-image comparison" style="max-width: 100%; max-height: 100%; width: auto; height: auto; object-fit: contain; border-radius: 4px;">
           </div>
           <div class="comparison-caption" style="font-size: 0.9rem; color: #555; margin-top: 0.5rem; text-align: left;">
-            <strong>Figure 3 (l).</strong> Back to the basics.
+            <strong>Figure 3 (l).</strong> We go back to the basics.
           </div>
         </div>
       </div>
@@ -606,101 +732,6 @@
         max-width: 100%;
       }
     </style>
-
-    <!-- 2. Degrees of Freedom (Fig 4 a-c vs d-f) -->
-    <div class="comparison-row">
-      <div class="comparison-col left">
-        <h3 class="title is-5" style="text-align: center;">Previous Concern (Fig. 4a-c)</h3>
-        <!-- Container for side-by-side Fig 4a and 4b -->
-        <div style="display: flex; gap: 20px; margin-bottom: 20px; flex-wrap: wrap;">
-          <div class="comparison-figure" style="flex: 1 1 200px;">
-            <img src="media/figures/fig4/a.png" alt="Fig 4a" style="width:100%">
-            <div class="comparison-caption"><strong>(a)</strong> Two image embeddings can be close together while having the same text-image distance \(r\)</div>
-          </div>
-          <div class="comparison-figure" style="flex: 1 1 200px;">
-            <img src="media/figures/fig4/b.png" alt="Fig 4b" style="width:100%">
-            <div class="comparison-caption"><strong>(b)</strong> ... or far apart, while having the same text-image distance</div>
-          </div>
-        </div>
-        <div class="comparison-figure">
-          <img src="media/figures/fig4/c.png" alt="Fig 4c" style="width:100%">
-          <div class="comparison-caption"><strong>(c)</strong> Previous conclusion: a degree of freedom remains → misalignment possible. The previous intra-modal degree-of-freedom argument in [3] illustrates that two image embeddings can lie on any two arbitrary points on the circumference, leaving a degree of freedom for image-image miscalibration.</div>
-        </div>
-      </div>
-      <div class="comparison-col">
-        <h3 class="title is-5" style="text-align: center;">Our Explanation (Fig. 4d-f)</h3>
-
-        <!-- Container for side-by-side Fig 4d and 4e with shared caption -->
-        <div style="margin-bottom: 20px;">
-          <div style="display: flex; gap: 20px; flex-wrap: wrap;">
-            <div class="comparison-figure" style="flex: 1 1 200px;">
-              <img src="media/figures/fig4/d.png" alt="Fig 4d" style="width:100%">
-            </div>
-            <div class="comparison-figure" style="flex: 1 1 200px;">
-              <img src="media/figures/fig4/e.png" alt="Fig 4e" style="width:100%">
-            </div>
-          </div>
-          <!-- Shared caption for Figs 4d and 4e -->
-          <div class="comparison-caption" style="margin-top: 8px;">
-            <strong>(d,e)</strong> The two different configurations in (a) and (b) are not arbitrary, but have a good reason to exist: Images in (a,d) and (b,e) have equal distance \(r\) to the "cat" text, but the two images in (a,d) are much more similar to each other than those in (b,e). Displayed distance values are real measurements.
-          </div>
-        </div>
-
-        <!-- Fig 4f with its own caption -->
-        <div class="comparison-figure">
-          <img src="media/figures/fig4/f.png" alt="Fig 4f" style="width:100%">
-          <div class="comparison-caption"><strong>(f)</strong> Intra‑modal similarities are a consequence of inter‑modal constraints – no extra degree of freedom. The previous line of argumentation overlooks that each image embedding is bound to more than one text after training.</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- 3. Cosine Similarity Distributions (Fig 2 vs Fig 5) -->
-    <div class="comparison-row">
-      <div class="comparison-col left">
-        <h3 class="title is-5" style="text-align: center;">Previous Concern (Fig. 2)</h3>
-        <!-- Row 1: Class similarities -->
-        <div class="comparison-figure">
-          <img src="media/figures/fig2/by_class.png" alt="Fig 2 (by class): class histograms" onerror="this.src='media/figures/cosimhist_previous.png'" style="width:100%">
-          <div class="comparison-caption"><strong>Figure 2 (by class).</strong> Pairwise cosine similarity distributions. Left: Similarities between same class (blue) and opposite class (orange) image feature pairs. A high overlap ratio between the two colors was previously highlighted as an indicator for an intra-modal misalignment issue in CLIP.</div>
-        </div>
-        <!-- Row 2: Modality similarities -->
-        <div class="comparison-figure">
-          <img src="media/figures/fig2/by_mod.png" alt="Fig 2 (by modality): modality histograms" onerror="this.src='media/figures/cosimhist_previous.png'" style="width:100%">
-          <div class="comparison-caption"><strong>Figure 2 (by modality).</strong> Similarity distributions of image-text pairs (purple) versus image-image pairs (green). Because CLIP is only supervised on the former, the divergence has previously prompted concerns about whether the latter reflect true similarities.</div>
-        </div>
-      </div>
-      <div class="comparison-col">
-        <h3 class="title is-5" style="text-align: center;">Our Finding (Fig. 5)</h3>
-        <!-- Row 1: Class similarities (SigLIP and SigLIP2) -->
-        <div class="comparison-figure">
-          <div class="subfigure-row">
-            <div class="subfigure">
-              <img src="media/figures/siglip_by_class.png" alt="SigLIP class histograms" style="width:100%">
-              <div class="comparison-caption" style="margin-top: 0.2rem;"><strong>SigLIP</strong> (inter-modal only)</div>
-            </div>
-            <div class="subfigure">
-              <img src="media/figures/siglip2_by_class.png" alt="SigLIP2 class histograms" style="width:100%">
-              <div class="comparison-caption" style="margin-top: 0.2rem;"><strong>SigLIP2</strong> (with intra-modal objective)</div>
-            </div>
-          </div>
-          <div class="comparison-caption"><strong>Figure 5 (by class).</strong> Cosine similarity histograms by class. The distributions are almost equal for purely text-image trained SigLIP (left) and SigLIP2 (right) which includes an image-image self-supervised objective as in the DINO line of work. This indicates intra-class variation is no sign of misalignment brought by pure text-image training, but rather normal behavior.</div>
-        </div>
-        <!-- Row 2: Modality similarities (SigLIP and SigLIP2) -->
-        <div class="comparison-figure">
-          <div class="subfigure-row">
-            <div class="subfigure">
-              <img src="media/figures/siglip_by_mod.png" alt="SigLIP modality histograms" style="width:100%">
-              <div class="comparison-caption" style="margin-top: 0.2rem;"><strong>SigLIP</strong> (inter-modal only)</div>
-            </div>
-            <div class="subfigure">
-              <img src="media/figures/siglip2_by_mod.png" alt="SigLIP2 modality histograms" style="width:100%">
-              <div class="comparison-caption" style="margin-top: 0.2rem;"><strong>SigLIP2</strong> (with intra-modal objective)</div>
-            </div>
-          </div>
-          <div class="comparison-caption"><strong>Figure 5 (by modality).</strong> Cosine similarity histograms by modality. The divergence in similarity distributions between inter-modal (image-text) and intra-modal (image-image) pairs is nearly identical for both models. The fact that SigLIP2's additional image-image training does not close this gap demonstrates this is not a misalignment introduced by a missing image-image objective.</div>
-        </div>
-      </div>
-    </div>
 
     <hr class="rounded">
 
@@ -770,15 +801,15 @@
     </p>
     <div class="table-wrapper">
     <table class="table is-bordered is-striped is-hoverable">
-  <style>
+    <style>
     .dataset, .dataset strong {
       color: #6c757d; /* gray */
     }
     .average, .average strong {
       color: #000000; /* black */
     }
-  </style>
-  <thead>
+    </style>
+    <thead>
     <tr>
       <th>Model</th>
       <th>Method</th>
@@ -797,8 +828,8 @@
       <th class="dataset">SUN397</th>
       <th class="dataset">UCF101</th>
     </tr>
-  </thead>
-  <tbody>
+    </thead>
+    <tbody>
     <!-- CLIP B/32 -->
     <tr>
       <td rowspan="3">CLIP B/32</td>
@@ -997,48 +1028,50 @@
       <td class="dataset"><strong>48.9</strong></td>
       <td class="dataset"><strong>63.0</strong></td>
     </tr>
-  </tbody>
-</table>
+    </tbody>
+    </table>
     </div>
 
-    <hr class="rounded">
+  <!-- References -->
+    <div class="content" style="background: #f9f9f9; padding: 1.5rem; border-radius: 20px; font-size: 0.8rem;">
+      <p style="margin-bottom: 0.3rem;">[1] Mistretta et al.: "Cross the gap: Exposing the intra-modal misalignment in clip via modality inversion", ICLR 2025.</p>
+      <p style="margin-bottom: 0.3rem;">[2] Yi et al.: "Leveraging cross-modal neighbor representation for improved clip classification", CVPR 2024.</p>
+      <p>[3] Udandarao et al.: "Training-free name-only transfer of vision-language models", CVPR 2023.</p>
+    </div>
+
+  <hr class="rounded">
 
     <!-- Take Home Messages (keep as before) -->
     <h2 class="title is-3">Take Home Messages</h2>
     <div class="takehome">
-      <h4>🔍 Finding 1 – Image-image distances are constrained</h4>
-      <p class="has-text-justified">...</p>
+      <h4>🧩 Finding 1 – Image-image distances are constrained</h4>
+      <p class="has-text-justified">After training, if text-image similarities are well-calibrated, then image-image similarities are well-defined too. This is like a overconstrained bipartite graph.</p>
     </div>
     <div class="takehome">
-      <h4>📊 Finding 2 – Histogram indicators do not document misalignment</h4>
-      <p class="has-text-justified">...</p>
+      <h4>🔍 Finding 2 – With or without intra-modal loss, we didn't find a diff </h4>
+      <p class="has-text-justified">We didn't find significant differences between models with and without intra-modal training objective.
+      So we have no reason to believe that a missing intra-modal objective causes intra-modal misalignment.</p>
     </div>
     <div class="takehome">
       <h4>🚀 Finding 3 – Basic few-shot methods are competitive</h4>
-      <p class="has-text-justified">...</p>
+      <p class="has-text-justified">For few-shot classification, some classic machine learning techniques like linear discriminant analysis (LDA) work quite well on the raw image embeddings. It doesn't seem concerning.</p>
     </div>
     <div class="takehome">
-      <h4>🧩 Finding 4 – Dropping class-irrelevant information explains and exceeds previous results</h4>
-      <p class="has-text-justified">...</p>
+      <h4>📊 Finding 4 – Dropping class-irrelevant information explains and exceeds previous results</h4>
+      <p class="has-text-justified">Removing visual details from the embedding removes information that's spurious w.r.t. the class label.
+          It thus mitigates task ambiguity in the few-shot setting. This is why some previous attempts worked.
+          And this is what our $PCA^\leftarrow$ does.</p>
     </div>
 
     <hr class="rounded">
 
-    <!-- References -->
-    <div class="content" style="background: #f9f9f9; padding: 1.5rem; border-radius: 20px;">
-      <p style="font-size: 0.9rem; margin-bottom: 0.3rem;">[1] Mistretta et al.: "Cross the gap: Exposing the intra-modal misalignment in clip via modality inversion", ICLR 2025.</p>
-      <p style="font-size: 0.9rem; margin-bottom: 0.3rem;">[2] Yi et al.: "Leveraging cross-modal neighbor representation for improved clip classification", CVPR 2024.</p>
-      <p style="font-size: 0.9rem;">[3] Udandarao et al.: "Training-free name-only transfer of vision-language models", CVPR 2023.</p>
-    </div>
-
-    <!-- BibTeX -->
-    <h2 class="title is-3">BibTeX</h2>
+    <!-- Cite this work -->
+    <h2 class="title is-4">Cite this work</h2>
     <pre><code>@article{herzog2026reevaluating,
       title   = {Reevaluating the Intra-Modal Misalignment Hypothesis in CLIP},
       author  = {Jonas Herzog and Yue Wang},
-      journal = {arXiv preprint arXiv:2603.12345},
-      year    = {2026},
-      url     = {https://arxiv.org/abs/2603.123456}
+      journal = {arXiv preprint arXiv:2603.16100},
+      year    = {2026}
     }</code></pre>
 
   </div> <!-- container -->
