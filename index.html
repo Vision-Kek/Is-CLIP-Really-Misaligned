@@ -14,19 +14,11 @@
   <!-- Favicon -->
   <link rel="icon" href="media/thumbnail.png" type="image/png">
 
-  <script>
-    window.dataLayer = window.dataLayer || [];
-  </script>
-
   <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
         rel="stylesheet">
 
   <link rel="stylesheet" href="./static/css/bulma.min.css">
-  <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
-  <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
   <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
-  <link rel="stylesheet"
-        href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
   <link rel="stylesheet" href="./static/css/index.css">
 
   <link rel="stylesheet" href="./static/source_serif_4.css">
@@ -123,6 +115,28 @@
       line-height: 1.4;
     }
 
+    /* Collapsible abstract blocks */
+    details.abstract-block summary {
+      padding: 1.2rem 1.8rem;
+      cursor: pointer;
+      list-style: none;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      user-select: none;
+    }
+    details.abstract-block summary::-webkit-details-marker { display: none; }
+    details.abstract-block summary::before {
+      content: '▶';
+      font-size: 0.65rem;
+      color: #1a4d80;
+      transition: transform 0.2s;
+      flex-shrink: 0;
+    }
+    details.abstract-block[open] summary::before {
+      transform: rotate(90deg);
+    }
+
     /* Takehome boxes */
     .takehome {
       background: #f9f2e9;
@@ -150,10 +164,12 @@
       flex-wrap: wrap;
       margin: 1rem 0 2rem 0;
       border: 1px solid #e0e0e0;
-      border-radius: 12px;
-      background: #fafafa;
+      border-radius: 8px;
+      background: #f6f8fa;
+      border-color: #d1d9e0;
       padding: 1rem;
       width: 100%;
+      overflow: hidden;
     }
 
     .comparison-col {
@@ -172,7 +188,7 @@
       }
 
       .comparison-col.left {
-        border-right: 2px dashed #aaa;
+        border-right: 2px dashed #d1d9e0;
       }
     }
 
@@ -389,6 +405,226 @@
     iframe {
       max-width: 100%;
     }
+
+    /* === ENHANCEMENTS === */
+
+    html { scroll-behavior: smooth; }
+
+    /* Comparison row hover lift */
+    .comparison-row {
+      position: relative;
+      transition: box-shadow 0.25s ease, transform 0.25s ease;
+    }
+    .comparison-row:hover {
+      box-shadow: 0 8px 28px rgba(0,0,0,0.09);
+      transform: translateY(-3px);
+    }
+
+    /* VS badge */
+    .vs-badge {
+      position: absolute;
+      left: calc(50% - 18px);
+      top: 50%;
+      transform: translateY(-50%);
+      width: 36px;
+      height: 36px;
+      background: #C8651D;
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 0.7rem;
+      z-index: 10;
+      box-shadow: 0 2px 10px rgba(200,101,29,0.4);
+      letter-spacing: 0.5px;
+      pointer-events: none;
+    }
+    .comparison-row.show-left .vs-badge,
+    .comparison-row.show-right .vs-badge { display: none !important; }
+    @media screen and (max-width: 768px) { .vs-badge { display: none; } }
+
+    /* Compare tabs */
+    .compare-tabs {
+      flex: 0 0 100%;
+      display: flex;
+      justify-content: center;
+      gap: 0.4rem;
+      margin-bottom: 1.2rem;
+    }
+    .compare-tab {
+      background: #f0f0f0;
+      border: 1px solid #ddd;
+      border-radius: 20px;
+      padding: 0.28rem 0.9rem;
+      font-size: 0.8rem;
+      cursor: pointer;
+      color: #555;
+      font-family: 'Google Sans', sans-serif;
+      transition: background 0.18s, color 0.18s, border-color 0.18s;
+    }
+    .compare-tab { font-family: 'Courier New', monospace; }
+    .compare-tab[data-view="left"].active  { background: #cf222e; border-color: #cf222e; color: white; }
+    .compare-tab[data-view="both"].active  { background: #444;    border-color: #444;    color: white; }
+    .compare-tab[data-view="right"].active { background: #1a7f37; border-color: #1a7f37; color: white; }
+
+    /* Single-panel toggle states */
+    .comparison-row.show-left .comparison-col:not(.left) { display: none !important; }
+    .comparison-row.show-right .comparison-col.left { display: none !important; }
+    .comparison-row.show-left .comparison-col.left,
+    .comparison-row.show-right .comparison-col:not(.left) {
+      flex: 1 1 100% !important;
+      min-width: 100% !important;
+      border-right: none !important;
+    }
+
+    /* image-container-fixed-height */
+    .image-container-fixed-height {
+      width: 100%;
+      height: 280px;
+      background: white;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      padding: 4px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .image-container-fixed-height img {
+      max-width: 100%;
+      max-height: 100%;
+      width: auto;
+      height: auto;
+      object-fit: contain;
+      border-radius: 4px;
+    }
+    @media screen and (max-width: 768px) {
+      .comparison-col.left {
+        border-right: none !important;
+        border-bottom: 2px dashed #aaa;
+        padding-bottom: 1rem;
+        margin-bottom: 1rem;
+      }
+      .comparison-col, .comparison-col.left { padding-top: 0 !important; padding-right: 0 !important; padding-bottom: 0 !important; }
+      .image-container-fixed-height { height: 220px; }
+    }
+    @media screen and (max-width: 480px) {
+      .image-container-fixed-height { height: 180px; }
+    }
+
+    /* BibTeX copy wrapper */
+    .bibtex-wrapper { position: relative; }
+    .copy-btn {
+      position: absolute;
+      top: 0.6rem;
+      right: 0.6rem;
+      background: #f0f0f0;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      padding: 0.25rem 0.7rem;
+      font-size: 0.75rem;
+      cursor: pointer;
+      color: #555;
+      font-family: 'Google Sans', sans-serif;
+      transition: background 0.2s, color 0.2s, border-color 0.2s;
+      line-height: 1.5;
+    }
+    .copy-btn:hover { background: #C8651D; color: white; border-color: #C8651D; }
+    .copy-btn.copied { background: #3a9c5f; color: white; border-color: #3a9c5f; }
+
+    /* Vertical diff strips */
+    .comparison-col { position: relative; }
+
+    /* Padding offset so content clears the strip */
+    .comparison-col.left       { padding-right: 1.9rem !important; }
+    .comparison-col:not(.left) { padding-left:  1.9rem !important; }
+    @media screen and (max-width: 768px) {
+      .comparison-col.left       { padding-right: 1.6rem !important; }
+      .comparison-col:not(.left) { padding-left:  1.6rem !important; }
+    }
+
+    /* Remove dashed divider — strips form the separator */
+    .comparison-col.left { border-right: none !important; }
+
+    /* Left column: red --- strip on RIGHT edge */
+    .comparison-col.left::before {
+      content: "-\A-\A-\A-\A-\A-\A-\A-\A-\A-\A-\A-\A-\A-\A-\A-\A-\A-\A-\A-\A-\A-\A-\A-\A-\A-\A-\A-\A-\A-\A-\A-\A-\A-\A-\A-\A-\A-\A-\A-\A-\A-\A-\A-\A-\A-\A-\A-\A-\A-\A-\A-\A-\A-\A-\A-\A-\A-\A-\A-\A-\A-\A-\A-\A-\A-\A-\A-\A-\A-\A-\A-\A-\A-\A-\A-\A-\A-\A-\A-\A-\A-\A-\A-\A-\A-\A-\A-\A-\A-\A-\A-\A-\A-\A-\A-\A-\A-\A-\A-\A-\A-\A-\A-\A-\A-\A-\A-\A-\A-\A-\A-\A-\A-\A-\A-\A-\A-\A-\A-\A";
+      white-space: pre;
+      position: absolute;
+      right: 0; top: 0; bottom: 0;
+      width: 1.5rem;
+      overflow: hidden;
+      background: #ffeef0;
+      color: #cf222e;
+      font-family: 'Courier New', monospace;
+      font-size: 0.85rem;
+      line-height: 1.55rem;
+      text-align: center;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    /* Right column: green +++ strip */
+    .comparison-col:not(.left)::before {
+      content: "+\A+\A+\A+\A+\A+\A+\A+\A+\A+\A+\A+\A+\A+\A+\A+\A+\A+\A+\A+\A+\A+\A+\A+\A+\A+\A+\A+\A+\A+\A+\A+\A+\A+\A+\A+\A+\A+\A+\A+\A+\A+\A+\A+\A+\A+\A+\A+\A+\A+\A+\A+\A+\A+\A+\A+\A+\A+\A+\A+\A+\A+\A+\A+\A+\A+\A+\A+\A+\A+\A+\A+\A+\A+\A+\A+\A+\A+\A+\A+\A+\A+\A+\A+\A+\A+\A+\A+\A+\A+\A+\A+\A+\A+\A+\A+\A+\A+\A+\A+\A+\A+\A+\A+\A+\A+\A+\A+\A+\A+\A+\A+\A+\A+\A+\A+\A+\A+\A+\A+\A";
+      white-space: pre;
+      position: absolute;
+      left: 0; top: 0; bottom: 0;
+      width: 1.5rem;
+      overflow: hidden;
+      background: #e6ffec;
+      color: #1a7f37;
+      font-family: 'Courier New', monospace;
+      font-size: 0.85rem;
+      line-height: 1.55rem;
+      text-align: center;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    /* @@ badge */
+    .vs-badge { font-family: 'Courier New', monospace; font-size: 0.72rem; width: 40px; letter-spacing: -0.5px; }
+
+    /* Hunk header bar on compare-tabs */
+    .compare-tabs {
+      background: #eaf0f6;
+      border-bottom: 1px solid #d1d9e0;
+      margin: -1rem -1rem 1rem -1rem;
+      padding: 0.35rem 0.75rem;
+      border-radius: 0;
+    }
+
+    /* Takehome */
+    .takehome-group { counter-reset: finding; }
+    .takehome {
+      counter-increment: finding;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .takehome:hover {
+      transform: translateX(4px);
+      box-shadow: -4px 0 0 #C8651D, 2px 2px 12px rgba(0,0,0,0.08);
+    }
+    .takehome h4 {
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+    }
+    .takehome h4::before {
+      content: counter(finding);
+      flex-shrink: 0;
+      display: inline-block;
+      width: 1.7rem;
+      height: 1.7rem;
+      line-height: 1.7rem;
+      text-align: center;
+      background: #C8651D;
+      color: white;
+      border-radius: 50%;
+      font-size: 0.82rem;
+      font-weight: 700;
+      font-family: 'Google Sans', sans-serif;
+    }
   </style>
 
   <script>
@@ -424,7 +660,7 @@
 <body>
 
 <!-- Title section -->
-<section class="hero">
+<section class="hero" style="background: linear-gradient(180deg, #f8f3ee 0%, #ffffff 100%)">
   <div class="hero-body">
     <div class="container is-fullhd">
       <div class="columns is-centered">
@@ -479,33 +715,37 @@
     <div class="columns is-centered">
       <div class="column is-four-fifths">
 
-        <h2 class="title is-3 has-text-centered">Abstract</h2>
+        <h2 id="abstract" class="title is-3 has-text-centered">Abstract</h2>
 
         <!-- What is the "Intra-Modal Misalignment Hypothesis"? -->
-        <div class="content" style="background: #f0f5fa; padding: 1.8rem; border-radius: 20px; margin-bottom: 1.5rem;">
-          <h3 class="title is-5" style="color: #1a4d80; margin-bottom: 0.8rem;">What is the "Intra-Modal Misalignment Hypothesis"?</h3>
-          <p class="has-text-justified" style="margin-bottom: 0.5rem;">
-            Recent research suggested that the embeddings produced
-            by CLIP-like contrastive language-image training are suboptimal for image-only tasks. The main theory is that the
-            inter-modal (language-image) alignment loss ignores intra-modal (image-image) alignment, leading to poorly calibrated distances between images.
-            <sup>[1,2,3]</sup>
-          </p>
-        </div>
+        <details class="abstract-block" style="background: #f0f5fa; border-radius: 20px; margin-bottom: 1.5rem;">
+          <summary><h3 class="title is-5" style="color: #1a4d80; margin: 0;">What is the "Intra-Modal Misalignment Hypothesis"?</h3></summary>
+          <div class="content" style="padding: 0 1.8rem 1.2rem 1.8rem;">
+            <p class="has-text-justified" style="margin-bottom: 0.5rem;">
+              Recent research suggested that the embeddings produced
+              by CLIP-like contrastive language-image training are suboptimal for image-only tasks. The main theory is that the
+              inter-modal (language-image) alignment loss ignores intra-modal (image-image) alignment, leading to poorly calibrated distances between images.
+              <sup>[1,2,3]</sup>
+            </p>
+          </div>
+        </details>
 
         <!-- What is our "Reevaluation"? -->
-        <div class="content" style="background: #f0f5fa; padding: 1.8rem; border-radius: 20px; margin-bottom: 1.5rem;">
-          <h3 class="title is-5" style="color: #1a4d80; margin-bottom: 0.8rem;">What is our "Reevaluation"?</h3>
-          <p class="has-text-justified" style="margin-bottom: 0.8rem;">
-            In this study, we question this intra-modal misalignment hypothesis.
-          </p>
-          <p class="has-text-justified">
-            We reexamine its foundational theoretical argument, the indicators used to support it, and the performance metrics affected.
-            For the theoretical argument, we demonstrate that there are no such supposed degrees of freedom for image embedding distances.
-            For the empirical measures, our findings reveal they yield similar results for language-image trained models (CLIP, SigLIP) and image-image trained models (DINO, SigLIP2).
-            This indicates the observed phenomena do not stem from a misalignment of the former.
-            Experiments on the commonly studied intra-modal tasks retrieval and few-shot classification confirm that addressing task ambiguity, not supposed misalignment, is key for best performance.
-          </p>
-        </div>
+        <details class="abstract-block" style="background: #f0f5fa; border-radius: 20px; margin-bottom: 1.5rem;">
+          <summary><h3 class="title is-5" style="color: #1a4d80; margin: 0;">What is our "Reevaluation"?</h3></summary>
+          <div class="content" style="padding: 0 1.8rem 1.2rem 1.8rem;">
+            <p class="has-text-justified" style="margin-bottom: 0.8rem;">
+              In this study, we question this intra-modal misalignment hypothesis.
+            </p>
+            <p class="has-text-justified">
+              We reexamine its foundational theoretical argument, the indicators used to support it, and the performance metrics affected.
+              For the theoretical argument, we demonstrate that there are no such supposed degrees of freedom for image embedding distances.
+              For the empirical measures, our findings reveal they yield similar results for language-image trained models (CLIP, SigLIP) and image-image trained models (DINO, SigLIP2).
+              This indicates the observed phenomena do not stem from a misalignment of the former.
+              Experiments on the commonly studied intra-modal tasks retrieval and few-shot classification confirm that addressing task ambiguity, not supposed misalignment, is key for best performance.
+            </p>
+          </div>
+        </details>
       </div>
     </div>
 
@@ -514,10 +754,15 @@
     <!-- SIDE-BY-SIDE COMPARISONS (GIT-DIFF STYLE)     -->
     <!-- ============================================= -->
 
-    <h2 class="title is-3 has-text-centered">The Reevaluation</h2>
+    <h2 id="reevaluation" class="title is-3 has-text-centered">The Reevaluation</h2>
 
     <!-- 1. Degrees of Freedom (Fig 4 a-c vs d-f) -->
     <div class="comparison-row">
+      <div class="compare-tabs">
+        <button class="compare-tab" data-view="left">--- prev</button>
+        <button class="compare-tab active" data-view="both">⟷ diff</button>
+        <button class="compare-tab" data-view="right">+++ ours</button>
+      </div>
       <div class="comparison-col left">
         <h3 class="title is-5" style="text-align: center;">Previous Concern (Fig. 4a-c)</h3>
           <!-- This is the element with the caption you want to adjust -->
@@ -539,7 +784,7 @@
           </div>
         </div>
           <div class="comparison-figure">
-          <img src="media/figures/fig4/c.png" alt="Fig 4c" style="width:100%">
+          <img src="media/figures/fig4/c.png" alt="Fig 4c" style="width:50%; display:block; margin:0 auto;">
           <div class="comparison-caption"><strong>(c)</strong> Previous conclusion: a degree of freedom remains → image-image misalignment possible.
               Image embeddings can lie on any arbitrary points on the circumference, leaving a degree of freedom for intra-modal miscalibration.</div>
         </div>
@@ -566,21 +811,27 @@
 
         <!-- Fig 4f with its own caption -->
         <div class="comparison-figure">
-          <img src="media/figures/fig4/f.png" alt="Fig 4f" style="width:100%">
+          <img src="media/figures/fig4/f.png" alt="Fig 4f" style="width:50%; display:block; margin:0 auto;">
           <div class="comparison-caption"><strong>(f)</strong> Intra‑modal similarities are a consequence of inter‑modal similarities – no extra degree of freedom. The previous line of argumentation overlooks that each image embedding is bound to more than one text after training.</div>
         </div>
       </div>
+      <div class="vs-badge">@@</div>
     </div>
 
    <!-- 2. Cosine Similarity Distributions (Fig 2 vs Fig 5) -->
 <div class="comparison-row">
+  <div class="compare-tabs">
+    <button class="compare-tab" data-view="left">--- prev</button>
+    <button class="compare-tab active" data-view="both">⟷ diff</button>
+    <button class="compare-tab" data-view="right">+++ ours</button>
+  </div>
   <div class="comparison-col left">
     <h3 class="title is-5" style="text-align: center;">Previous Concern (Fig. 2)</h3>
     <!-- Row 1: Class similarities - with fixed height container -->
     <div class="comparison-figure" style="display: flex; flex-direction: column; height: 100%; margin-bottom: 1.5rem;">
       <div style="flex: 1; display: flex; flex-direction: column;">
         <div style="background: white; border-radius: 8px; border: 1px solid #ccc; padding: 4px; display: flex; justify-content: center; align-items: center; min-height: 200px;">
-          <img src="media/figures/fig2/by_class.png" alt="Fig 2 (by class): class histograms" onerror="this.src='media/figures/cosimhist_previous.png'" style="max-width: 100%; max-height: 100%; width: auto; height: auto; object-fit: contain; border-radius: 4px;">
+          <img src="media/figures/fig2/by_class.png" alt="Fig 2 (by class): class histograms" onerror="this.src='media/figures/cosimhist_previous.png'" style="max-width: 70%; max-height: 100%; width: 70%; height: auto; object-fit: contain; border-radius: 4px;">
         </div>
         <div class="comparison-caption" style="margin-top: 0.5rem;"><strong>Figure 2 (by class).</strong> Pairwise cosine similarity distributions. Left: Similarities between same class (blue) and opposite class (orange) image feature pairs. A high overlap ratio between the two colors was previously highlighted as an indicator for an intra-modal misalignment issue in CLIP.</div>
       </div>
@@ -590,7 +841,7 @@
     <div class="comparison-figure" style="display: flex; flex-direction: column; height: 100%;">
       <div style="flex: 1; display: flex; flex-direction: column;">
         <div style="background: white; border-radius: 8px; border: 1px solid #ccc; padding: 4px; display: flex; justify-content: center; align-items: center; min-height: 200px;">
-          <img src="media/figures/fig2/by_mod.png" alt="Fig 2 (by modality): modality histograms" onerror="this.src='media/figures/cosimhist_previous.png'" style="max-width: 100%; max-height: 100%; width: auto; height: auto; object-fit: contain; border-radius: 4px;">
+          <img src="media/figures/fig2/by_mod.png" alt="Fig 2 (by modality): modality histograms" onerror="this.src='media/figures/cosimhist_previous.png'" style="max-width: 70%; max-height: 100%; width: 70%; height: auto; object-fit: contain; border-radius: 4px;">
         </div>
         <div class="comparison-caption" style="margin-top: 0.5rem;"><strong>Figure 2 (by modality).</strong> Similarity distributions of image-text pairs (purple) versus image-image pairs (green). Because CLIP is only supervised on the former, the divergence has previously prompted concerns about whether the latter reflect true similarities.</div>
       </div>
@@ -641,14 +892,20 @@
       </div>
     </div>
   </div>
+  <div class="vs-badge">@@</div>
 </div>
     <!-- 3. Modality Inversion Approach (Fig 3) -->
-    <div class="comparison-row" style="display: flex; flex-wrap: wrap; margin: 1rem 0 2rem 0; border: 1px solid #e0e0e0; border-radius: 12px; background: #fafafa; padding: 1.5rem; width: 100%;">
-      <div class="comparison-col left" style="flex: 1 1 300px; min-width: 300px; padding: 0 1rem; display: flex; flex-direction: column; border-right: 2px dashed #aaa;">
+    <div class="comparison-row" style="display: flex; flex-wrap: wrap; margin: 1rem 0 2rem 0; border: 1px solid #d1d9e0; border-radius: 8px; background: #f6f8fa; padding: 1rem; width: 100%; overflow: hidden;">
+      <div class="compare-tabs">
+        <button class="compare-tab" data-view="left">--- prev</button>
+        <button class="compare-tab active" data-view="both">⟷ diff</button>
+        <button class="compare-tab" data-view="right">+++ ours</button>
+      </div>
+      <div class="comparison-col left" style="flex: 1 1 300px; min-width: 300px; padding: 0 1rem; display: flex; flex-direction: column;">
         <h3 class="title is-5" style="text-align: center;" id="oti">Previous "Workaround" (Fig. 3r)</h3>
         <div class="comparison-figure" style="display: flex; flex-direction: column; height: 100%;">
           <div class="image-container-fixed-height" style="width: 100%; height: 280px; background: white; border-radius: 8px; border: 1px solid #ccc; padding: 4px; display: flex; justify-content: center; align-items: center;">
-            <img src="media/figures/fig3/right.png" alt="Fig 3 right: image-text comparison" style="max-width: 100%; max-height: 100%; width: auto; height: auto; object-fit: contain; border-radius: 4px;">
+            <img src="media/figures/fig3/right.png" alt="Fig 3 right: image-text comparison" style="max-width: 90%; max-height: 90%; width: 90%; height: auto; object-fit: contain; border-radius: 4px;">
           </div>
           <div class="comparison-caption" style="font-size: 0.9rem; color: #555; margin-top: 0.5rem; text-align: left;">
             <strong>Figure 3 (r).</strong> Motivated by the intra-modal misalignment hypothesis, a previous work posited it is necessary to convert image-image comparison into image-text comparison.
@@ -667,66 +924,8 @@
           </div>
         </div>
       </div>
+      <div class="vs-badge">@@</div>
     </div>
-
-    <style>
-      /* Fixed height container for Figure 3 */
-      .image-container-fixed-height {
-        width: 100%;
-        height: 280px; /* Fixed height for both images */
-        background: white;
-        border-radius: 8px;
-        border: 1px solid #ccc;
-        padding: 4px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-      }
-
-      .image-container-fixed-height img {
-        max-width: 100%;
-        max-height: 100%;
-        width: auto;
-        height: auto;
-        object-fit: contain;
-        border-radius: 4px;
-      }
-
-      /* Responsive adjustments */
-      @media screen and (max-width: 768px) {
-        .comparison-row {
-          flex-direction: column;
-          padding: 1rem;
-        }
-
-        .comparison-col.left {
-          border-right: none !important;
-          border-bottom: 2px dashed #aaa;
-          padding-bottom: 1rem;
-          margin-bottom: 1rem;
-        }
-
-        .comparison-col, .comparison-col.left {
-          padding: 0 !important;
-        }
-
-        .image-container-fixed-height {
-          height: 220px; /* Slightly smaller on mobile */
-        }
-      }
-
-      @media screen and (max-width: 480px) {
-        .image-container-fixed-height {
-          height: 180px; /* Even smaller on very small screens */
-        }
-      }
-
-      /* For very tall images, ensure they don't overflow */
-      .image-container-fixed-height img {
-        max-height: 100%;
-        max-width: 100%;
-      }
-    </style>
 
     <hr class="rounded">
 
@@ -735,7 +934,7 @@
     <!-- ============================================= -->
 
     <!-- Table 1: Dogs vs Cats (preliminary experiment) -->
-    <h3 class="title is-5">Questioning Few-Shot Metrics on Toy Dataset</h3>
+    <h3 id="results" class="title is-5">Questioning Few-Shot Metrics on Toy Dataset</h3>
     <p class="figure-caption"><strong>Table 1.</strong> Repeating the demonstrative experiment in [1] on the simplistic Dogs vs Cats legacy dataset, where near-perfect results are expected.
       It was suggested in [1] that poor results with CLIP image-image similarities evidences a misalignment in the image-image space.
       This hypothesis gets no evidence when swapping model for the uni-modal DINO, a widely acknowledged state-of-the-art image embedder.
@@ -796,18 +995,10 @@
     </p>
     <div class="table-wrapper">
     <table class="table is-bordered is-striped is-hoverable">
-    <style>
-    .dataset, .dataset strong {
-      color: #6c757d; /* gray */
-    }
-    .average, .average strong {
-      color: #000000; /* black */
-    }
-    </style>
     <thead>
     <tr>
       <th>Model</th>
-      <th>Method</th>
+      <th style="white-space: nowrap; min-width: 7rem;">Method</th>
       <th class="average">Average</th>
       <th class="dataset">ROxford</th>
       <th class="dataset">RParis</th>
@@ -828,7 +1019,7 @@
     <!-- CLIP B/32 -->
     <tr>
       <td rowspan="3">CLIP B/32</td>
-      <td>Original</td>
+      <td style="white-space:nowrap">Original</td>
       <td class="average">41.6</td>
       <td class="dataset">42.4</td>
       <td class="dataset">74.0</td>
@@ -845,7 +1036,7 @@
       <td class="dataset">46.2</td>
     </tr>
     <tr>
-      <td>OTI</td>
+      <td style="white-space:nowrap"><span style="font-family:'Courier New',monospace;color:#cf222e;font-weight:700;">--</span> OTI</td>
       <td class="average">42.9</td>
       <td class="dataset">43.0</td>
       <td class="dataset">70.3</td>
@@ -862,7 +1053,7 @@
       <td class="dataset">48.6</td>
     </tr>
     <tr>
-      <td>PCA<sup>←</sup></td>
+      <td style="white-space:nowrap"><span style="font-family:'Courier New',monospace;color:#1a7f37;font-weight:700;">++</span> PCA<sup>←</sup></td>
       <td class="average"><strong>49.0</strong></td>
       <td class="dataset"><strong>51.4</strong></td>
       <td class="dataset"><strong>80.9</strong></td>
@@ -882,7 +1073,7 @@
     <!-- CLIP L/14 -->
     <tr>
       <td rowspan="3">CLIP L/14</td>
-      <td>Original</td>
+      <td style="white-space:nowrap">Original</td>
       <td class="average">53.7</td>
       <td class="dataset">57.1</td>
       <td class="dataset">77.8</td>
@@ -899,7 +1090,7 @@
       <td class="dataset">59.5</td>
     </tr>
     <tr>
-      <td>OTI</td>
+      <td style="white-space:nowrap"><span style="font-family:'Courier New',monospace;color:#cf222e;font-weight:700;">--</span> OTI</td>
       <td class="average">57.0</td>
       <td class="dataset">62.4</td>
       <td class="dataset">77.1</td>
@@ -916,7 +1107,7 @@
       <td class="dataset">62.8</td>
     </tr>
     <tr>
-      <td>PCA<sup>←</sup></td>
+      <td style="white-space:nowrap"><span style="font-family:'Courier New',monospace;color:#1a7f37;font-weight:700;">++</span> PCA<sup>←</sup></td>
       <td class="average"><strong>61.3</strong></td>
       <td class="dataset"><strong>64.5</strong></td>
       <td class="dataset"><strong>83.0</strong></td>
@@ -936,7 +1127,7 @@
     <!-- SigLIP B/16 -->
     <tr>
       <td rowspan="3">SigLIP B/16</td>
-      <td>Original</td>
+      <td style="white-space:nowrap">Original</td>
       <td class="average">57.2</td>
       <td class="dataset">50.6</td>
       <td class="dataset">73.1</td>
@@ -953,7 +1144,7 @@
       <td class="dataset">56.9</td>
     </tr>
     <tr>
-      <td>OTI</td>
+      <td style="white-space:nowrap"><span style="font-family:'Courier New',monospace;color:#cf222e;font-weight:700;">--</span> OTI</td>
       <td class="average">60.0</td>
       <td class="dataset">55.2</td>
       <td class="dataset"><strong>79.1</strong></td>
@@ -970,7 +1161,7 @@
       <td class="dataset">54.9</td>
     </tr>
     <tr>
-      <td>PCA<sup>←</sup></td>
+      <td style="white-space:nowrap"><span style="font-family:'Courier New',monospace;color:#1a7f37;font-weight:700;">++</span> PCA<sup>←</sup></td>
       <td class="average"><strong>62.8</strong></td>
       <td class="dataset"><strong>57.9</strong></td>
       <td class="dataset">78.4</td>
@@ -990,7 +1181,7 @@
     <!-- SigLIP2 B/16 (only two rows) -->
     <tr>
       <td rowspan="2">SigLIP2 B/16</td>
-      <td>Original</td>
+      <td style="white-space:nowrap">Original</td>
       <td class="average">58.6</td>
       <td class="dataset">52.5</td>
       <td class="dataset">75.6</td>
@@ -1007,7 +1198,7 @@
       <td class="dataset">59.2</td>
     </tr>
     <tr>
-      <td>PCA<sup>←</sup></td>
+      <td style="white-space:nowrap"><span style="font-family:'Courier New',monospace;color:#1a7f37;font-weight:700;">++</span> PCA<sup>←</sup></td>
       <td class="average"><strong>64.4</strong></td>
       <td class="dataset"><strong>59.4</strong></td>
       <td class="dataset"><strong>78.6</strong></td>
@@ -1038,44 +1229,72 @@
 
     <!-- Take Home Messages (keep as before) -->
     <h2 class="title is-3">Take Home Messages</h2>
+
+    <div class="takehome-group">
     <div class="takehome">
-      <h4>🧩 Finding 1 – Image-image distances are constrained</h4>
-      <p class="has-text-justified">After training, if text-image similarities are well-calibrated, then image-image similarities are well-defined too. This is like a overconstrained bipartite graph.</p>
+      <h4>Image-image distances are constrained</h4>
+      <p class="has-text-justified">After training, if text-image similarities are well-calibrated, then image-image similarities are well-defined too. This is like an overconstrained bipartite graph.</p>
     </div>
     <div class="takehome">
-      <h4>🔍 Finding 2 – With or without intra-modal loss, we didn't find a diff </h4>
-      <p class="has-text-justified">We didn't find significant differences between models with and without intra-modal training objective.
-      So we have no reason to believe that a missing intra-modal objective causes intra-modal misalignment.</p>
+      <h4>No difference with or without intra-modal loss</h4>
+      <p class="has-text-justified">We didn't find significant differences between models with and without an intra-modal training objective. So we have no reason to believe that a missing intra-modal objective causes intra-modal misalignment.</p>
     </div>
     <div class="takehome">
-      <h4>🚀 Finding 3 – Basic few-shot methods are competitive</h4>
-      <p class="has-text-justified">For few-shot classification, some classic machine learning techniques like linear discriminant analysis (LDA) work quite well on the raw image embeddings. It doesn't seem concerning.</p>
+      <h4>Basic few-shot methods are competitive</h4>
+      <p class="has-text-justified">Classic ML techniques like linear discriminant analysis (LDA) work quite well on raw image embeddings. No specialized fix for "misalignment" is needed.</p>
     </div>
     <div class="takehome">
-      <h4>📊 Finding 4 – Dropping class-irrelevant information explains and exceeds previous results</h4>
-      <p class="has-text-justified">Removing visual details from the embedding removes information that's spurious w.r.t. the class label.
-          It thus mitigates task ambiguity in the few-shot setting. This is why some previous attempts worked.
-          And this is what our $PCA^\leftarrow$ does.</p>
+      <h4>Dropping class-irrelevant information explains and exceeds previous results</h4>
+      <p class="has-text-justified">Removing visual details from the embedding removes information spurious w.r.t. the class label, mitigating task ambiguity in the few-shot setting. This is what our $PCA^\leftarrow$ does — and why some previous attempts worked.</p>
+    </div>
     </div>
 
     <hr class="rounded">
 
     <!-- Cite this work -->
-    <h2 class="title is-4">Cite this work</h2>
-    <pre><code>@article{herzog2026reevaluating,
+    <h2 id="cite" class="title is-4">Cite this work</h2>
+    <div class="bibtex-wrapper">
+      <button class="copy-btn" onclick="copyBibtex(this)">Copy</button>
+      <pre><code id="bibtex-code">@article{herzog2026reevaluating,
       title   = {Reevaluating the Intra-Modal Misalignment Hypothesis in CLIP},
       author  = {Jonas Herzog and Yue Wang},
       journal = {arXiv preprint arXiv:2603.16100},
       year    = {2026}
     }</code></pre>
-
+    </div>
   </div> <!-- container -->
 </section>
 
 <!-- Development Ribbon -->
 <div class="ribbon is-warning" style="background: #ffdd57; color:#222; padding: 0.75rem; text-align: center;">
-  2026-03-26 🚧🚧Under Development. May contain inaccuracies.🚧🚧
+  2026-05-15 🚧🚧 Under Development. May contain inaccuracies. 🚧🚧
 </div>
+
+<script>
+  // BibTeX copy
+  function copyBibtex(btn) {
+    const text = document.getElementById('bibtex-code').innerText;
+    navigator.clipboard.writeText(text).then(() => {
+      btn.textContent = 'Copied!';
+      btn.classList.add('copied');
+      setTimeout(() => { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 2000);
+    });
+  }
+
+  // Compare tabs
+  document.querySelectorAll('.compare-tabs').forEach(tabs => {
+    const row = tabs.closest('.comparison-row');
+    tabs.querySelectorAll('.compare-tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        tabs.querySelectorAll('.compare-tab').forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+        row.classList.remove('show-left', 'show-right');
+        const view = tab.dataset.view;
+        if (view !== 'both') row.classList.add('show-' + view);
+      });
+    });
+  });
+</script>
 
 </body>
 </html>
