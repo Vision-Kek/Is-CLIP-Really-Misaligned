@@ -592,7 +592,8 @@
     .compare-tabs {
       background: #eaf0f6;
       border-bottom: 1px solid #d1d9e0;
-      margin: -1rem -1rem 1rem -1rem;
+      flex-basis: calc(100% + 2rem + 2px);
+      margin: -1rem 0 1rem calc(-1rem - 1px);
       padding: 0.35rem 0.75rem;
       border-radius: 0;
     }
@@ -673,7 +674,7 @@
           </div>
           <div class="is-size-5 publication-authors">
             <span class="author-block">
-              <a target="_blank" href="">Jonas Herzog</a>,
+              <a target="_blank" href="https://jonas-herzog.github.io/">Jonas Herzog</a>,
             </span>
             <span class="author-block">
               <a target="_blank" href="">Yue Wang</a>
@@ -835,7 +836,7 @@
         <div style="background: white; border-radius: 8px; border: 1px solid #ccc; padding: 4px; display: flex; justify-content: center; align-items: center; min-height: 200px;">
           <img src="media/figures/fig2/by_class.png" alt="Fig 2 (by class): class histograms" onerror="this.src='media/figures/cosimhist_previous.png'" style="max-width: 70%; max-height: 100%; width: 70%; height: auto; object-fit: contain; border-radius: 4px;">
         </div>
-        <div class="comparison-caption" style="margin-top: 0.5rem;"><strong>Figure 2 (by class).</strong> Pairwise cosine similarity distributions. Left: Similarities between same class (blue) and opposite class (orange) image feature pairs. A high overlap ratio between the two colors was previously highlighted as an indicator for an intra-modal misalignment issue in CLIP.</div>
+        <div class="comparison-caption" style="margin-top: 0.5rem;"><strong>Figure 2 (by class).</strong> Pairwise cosine similarity distributions. Similarities between same class (blue) and opposite class (orange) image feature pairs. A high overlap ratio between the two colors was previously highlighted as an indicator for an intra-modal misalignment issue in CLIP.</div>
       </div>
     </div>
 
@@ -858,13 +859,13 @@
         <div class="subfigure-row" style="display: flex; gap: 1rem; flex-wrap: wrap;">
           <div class="subfigure" style="flex: 1 1 45%; min-width: 200px;">
             <div style="background: white; border-radius: 8px; border: 1px solid #ccc; padding: 4px; display: flex; justify-content: center; align-items: center; min-height: 180px;">
-              <img src="media/figures/siglip_by_class.png" alt="SigLIP class histograms" style="max-width: 100%; max-height: 100%; width: auto; height: auto; object-fit: contain; border-radius: 4px;">
+              <img src="media/figures/fig5/siglip_by_class.png" alt="SigLIP class histograms" style="max-width: 100%; max-height: 100%; width: auto; height: auto; object-fit: contain; border-radius: 4px;">
             </div>
             <div class="comparison-caption" style="margin-top: 0.2rem;"><strong>SigLIP</strong> (inter-modal only)</div>
           </div>
           <div class="subfigure" style="flex: 1 1 45%; min-width: 200px;">
             <div style="background: white; border-radius: 8px; border: 1px solid #ccc; padding: 4px; display: flex; justify-content: center; align-items: center; min-height: 180px;">
-              <img src="media/figures/siglip2_by_class.png" alt="SigLIP2 class histograms" style="max-width: 100%; max-height: 100%; width: auto; height: auto; object-fit: contain; border-radius: 4px;">
+              <img src="media/figures/fig5/siglip2_by_class.png" alt="SigLIP2 class histograms" style="max-width: 100%; max-height: 100%; width: auto; height: auto; object-fit: contain; border-radius: 4px;">
             </div>
             <div class="comparison-caption" style="margin-top: 0.2rem;"><strong>SigLIP2</strong> (with intra-modal objective)</div>
           </div>
@@ -879,13 +880,13 @@
         <div class="subfigure-row" style="display: flex; gap: 1rem; flex-wrap: wrap;">
           <div class="subfigure" style="flex: 1 1 45%; min-width: 200px;">
             <div style="background: white; border-radius: 8px; border: 1px solid #ccc; padding: 4px; display: flex; justify-content: center; align-items: center; min-height: 180px;">
-              <img src="media/figures/siglip_by_mod.png" alt="SigLIP modality histograms" style="max-width: 100%; max-height: 100%; width: auto; height: auto; object-fit: contain; border-radius: 4px;">
+              <img src="media/figures/fig5/siglip_by_mod.png" alt="SigLIP modality histograms" style="max-width: 100%; max-height: 100%; width: auto; height: auto; object-fit: contain; border-radius: 4px;">
             </div>
             <div class="comparison-caption" style="margin-top: 0.2rem;"><strong>SigLIP</strong> (inter-modal only)</div>
           </div>
           <div class="subfigure" style="flex: 1 1 45%; min-width: 200px;">
             <div style="background: white; border-radius: 8px; border: 1px solid #ccc; padding: 4px; display: flex; justify-content: center; align-items: center; min-height: 180px;">
-              <img src="media/figures/siglip2_by_mod.png" alt="SigLIP2 modality histograms" style="max-width: 100%; max-height: 100%; width: auto; height: auto; object-fit: contain; border-radius: 4px;">
+              <img src="media/figures/fig5/siglip2_by_mod.png" alt="SigLIP2 modality histograms" style="max-width: 100%; max-height: 100%; width: auto; height: auto; object-fit: contain; border-radius: 4px;">
             </div>
             <div class="comparison-caption" style="margin-top: 0.2rem;"><strong>SigLIP2</strong> (with intra-modal objective)</div>
           </div>
