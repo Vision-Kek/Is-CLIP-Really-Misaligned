@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>span_projection.py — Is CLIP Really Misaligned?</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      background: #f6f8fa;
+      color: #24292f;
+      min-height: 100vh;
+    }
+    header {
+      background: #fff;
+      border-bottom: 1px solid #d0d7de;
+      padding: 0.75rem 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    header a {
+      color: #0969da;
+      text-decoration: none;
+      font-size: 0.9rem;
+    }
+    header a:hover { text-decoration: underline; }
+    header .sep { color: #8c959f; }
+    header .filename {
+      font-weight: 600;
+      font-size: 0.95rem;
+    }
+    .file-meta {
+      background: #fff;
+      border: 1px solid #d0d7de;
+      border-radius: 6px;
+      margin: 1.25rem auto;
+      max-width: 960px;
+      overflow: hidden;
+    }
+    .file-header {
+      background: #f6f8fa;
+      border-bottom: 1px solid #d0d7de;
+      padding: 0.5rem 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 0.85rem;
+    }
+    .file-header .lines { color: #57606a; }
+    .copy-btn {
+      background: #f6f8fa;
+      border: 1px solid #d0d7de;
+      border-radius: 6px;
+      padding: 0.25rem 0.75rem;
+      font-size: 0.8rem;
+      cursor: pointer;
+      color: #24292f;
+      transition: background 0.15s, border-color 0.15s;
+    }
+    .copy-btn:hover { background: #e9ebee; border-color: #b5bdc6; }
+    .copy-btn.copied { background: #dafbe1; border-color: #2da44e; color: #1a7f37; }
+    pre {
+      margin: 0;
+      overflow-x: auto;
+    }
+    pre code.hljs {
+      padding: 1rem 1.25rem;
+      font-size: 0.84rem;
+      line-height: 1.6;
+      font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+      background: #fff;
+    }
+    .wrapper {
+      padding: 0 1.5rem 2rem;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <a href="index.html">Is CLIP Really Misaligned?</a>
+    <span class="sep">/</span>
+    <span class="filename">span_projection.py</span>
+  </header>
+
+  <div class="wrapper">
+    <div class="file-meta">
+      <div class="file-header">
+        <span class="lines">SpanProjection class — drop-in PCA&#8315; projection for CLIP / SigLIP embeddings</span>
+        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+      </div>
+      <pre><code class="language-python" id="code-content">import torch
+from tqdm import tqdm
+import os
+import requests
+
+
+def fit_pca(feats, reduce_factor=2):
+    n_components = feats.shape[1] // reduce_factor
+    covmat = torch.cov(feats.T)
+    eigvals, eigvecs = torch.linalg.eigh(covmat)
+    sorted_indcs = torch.sort(eigvals.float().cpu(), descending=True).indices
+    return eigvecs[:, sorted_indcs[:n_components]].float().T
+
+
+def transform_pca(span, feats_tensor):
+    U = torch.tensor(span, device=feats_tensor.device, dtype=feats_tensor.dtype) \
+        if not isinstance(span, torch.Tensor) else span.to(feats_tensor.device, feats_tensor.dtype)  # (d/2, d)
+    # U is the PCA projection from d -> d/2
+    # then reproject into original space: d/2 -> d  (not strictly necessary, but conceptually useful)
+    feats_tensor_projected = (U.T @ U @ feats_tensor.T).T
+    return feats_tensor_projected
+
+
+class SpanProjection:
+    def __init__(self, clip_model, tokenize_fn, span_feats_cache='imagenet_text_features.pt', device=None):
+        self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu') if not device else device
+        self.clip_model = clip_model
+        self.tokenize_fn = tokenize_fn
+        self.span_feats_cache = span_feats_cache
+        self.fwd_texts = self.fwd_texts_clip \
+            if 'CLIP' in str(type(self.clip_model)) or 'SLIP' in str(type(self.clip_model)) \
+            else self.fwd_texts_siglip
+
+        self.fullspan = self.fwd_imagenet_texts()
+        self.span = fit_pca(self.fullspan)
+
+    @torch.no_grad()
+    def fwd_texts_clip(self, texts):
+        # as in CLIP
+        tokenized = self.tokenize_fn(texts).to(self.device)
+        chunk_size = 64
+        text_feats = []
+        for i in tqdm(range(1 + (len(tokenized) - 1) // chunk_size), 'Forwarding Texts'):
+            text_feats.append(self.clip_model.encode_text(tokenized[i * chunk_size:i * chunk_size + chunk_size]))
+        return torch.cat(text_feats)
+
+    @torch.no_grad()
+    def fwd_texts_siglip(self, texts):
+        # as in SigLIP
+        tokenized = self.tokenize_fn(texts, padding="max_length", max_length=64, return_tensors="pt").to(self.device)
+        return self.clip_model.encode_text(tokenized)
+
+    @torch.no_grad()
+    def fwd_imagenet_texts(self):
+        if not os.path.exists(self.span_feats_cache):
+            print(f'{self.span_feats_cache=} not exists, extracting text features')
+            response = requests.get('https://raw.githubusercontent.com/pytorch/hub/master/imagenet_classes.txt')
+            imagenet_classes = response.text.strip().split('\n')
+            text_feats = self.fwd_texts(imagenet_classes)
+            os.makedirs(os.path.dirname(self.span_feats_cache), exist_ok=True)
+            torch.save(text_feats, self.span_feats_cache)
+        return torch.load(self.span_feats_cache, map_location=self.device).to(torch.float32)
+
+    @torch.no_grad()
+    def project(self, features):
+        return transform_pca(self.span, features)</code></pre>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script>
+    hljs.highlightAll();
+
+    function copyCode(btn) {
+      const raw = document.getElementById('code-content').innerText;
+      navigator.clipboard.writeText(raw).then(() => {
+        btn.textContent = 'Copied!';
+        btn.classList.add('copied');
+        setTimeout(() => { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 2000);
+      });
+    }
+  </script>
+</body>
+</html>

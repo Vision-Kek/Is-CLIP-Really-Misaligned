@@ -515,6 +515,64 @@
       .image-container-fixed-height { height: 180px; }
     }
 
+    /* Demo expandable blocks */
+    .demo-block {
+      border: 1px solid #e0e0e0;
+      border-radius: 8px;
+      overflow: hidden;
+      background: #fafafa;
+    }
+    .demo-block > summary {
+      list-style: none;
+      display: flex;
+      align-items: baseline;
+      gap: 0.75rem;
+      padding: 0.75rem 1rem;
+      cursor: pointer;
+      user-select: none;
+      background: #f4f4f4;
+      border-bottom: 1px solid transparent;
+      transition: background 0.15s;
+    }
+    .demo-block > summary::-webkit-details-marker { display: none; }
+    .demo-block > summary::before {
+      content: '▶';
+      font-size: 0.65rem;
+      color: #888;
+      transition: transform 0.2s;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .demo-block[open] > summary::before { transform: rotate(90deg); }
+    .demo-block[open] > summary { border-bottom-color: #e0e0e0; }
+    .demo-block > summary:hover { background: #ececec; }
+    .demo-title {
+      font-weight: 600;
+      font-size: 0.95rem;
+      color: #222;
+    }
+    .demo-desc {
+      font-size: 0.85rem;
+      color: #666;
+    }
+    .demo-code-wrapper { margin: 0; border: none; border-radius: 0; }
+    .demo-code-wrapper pre {
+      margin: 0;
+      border-radius: 0;
+      border: none;
+      background: #fff;
+      overflow-x: auto;
+    }
+    .demo-code-wrapper pre code {
+      display: block;
+      padding: 1rem 1.25rem;
+      font-size: 0.82rem;
+      line-height: 1.65;
+      font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+      color: #24292f;
+      background: #fff;
+    }
+
     /* BibTeX copy wrapper */
     .bibtex-wrapper { position: relative; }
     .copy-btn {
@@ -686,13 +744,13 @@
           <div class="button-container">
             <div class="column has-text-centered">
               <div class="publication-links is-flex is-flex-wrap-wrap is-justify-content-center is-align-items-center" style="gap: 0.75rem;">
+                <a href="#demonstrations" class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon"><i class="fab fa-github"></i></span>
+                  <span>Code</span>
+                </a>
                 <a href="https://arxiv.org/abs/2603.16100" target="_blank" class="external-link button is-normal is-rounded is-dark">
                   <span class="icon"><i class="ai ai-arxiv"></i></span>
                   <span>arXiv</span>
-                </a>
-                <a href="https://github.com/Vision-Kek/Is-CLIP-Really-Misaligned" target="_blank" class="external-link button is-normal is-rounded is-dark">
-                  <span class="icon"><i class="fab fa-github"></i></span>
-                  <span>Code</span>
                 </a>
               </div>
             </div>
@@ -1230,6 +1288,99 @@
 
   <hr class="rounded">
 
+    <!-- Demonstrations -->
+    <h2 id="demonstrations" class="title is-3">Code</h2>
+
+    <details class="demo-block" style="margin-bottom: 1.5rem;">
+      <summary>
+        <span class="demo-title">Projection Minimal Example</span>
+        <span class="demo-desc">Modify any image embedding to get the \(PCA^\leftarrow\) results from the paper.</span>
+      </summary>
+      <div class="bibtex-wrapper demo-code-wrapper">
+        <button class="copy-btn" onclick="copyCodeBlock(this)">Copy</button>
+        <pre><code class="demo-code">import requests
+import torch
+import torch.nn.functional as F
+import clip  # pip install git+https://github.com/openai/CLIP.git
+
+clip_model, preprocess = clip.load("ViT-B/16")
+
+# 1. Get ImageNet class names
+response = requests.get('https://raw.githubusercontent.com/pytorch/hub/master/imagenet_classes.txt')
+class_names = response.text.strip().split('\n')
+
+# 2. Get text features of class names
+tokenized = clip.tokenize(class_names)
+with torch.no_grad():
+    text_embeds = F.normalize(clip_model.encode_text(tokenized), dim=1)
+d = text_embeds.shape[1]
+
+# 3. Get principal components
+U,S,Vt = torch.linalg.svd(text_embeds.float())
+selected_components = Vt[:d//2]  # keep d/2 (e.g. 256 of 512)
+
+# 4. Now you can project any image embeddings
+image_embeddings = torch.randn(100, 512)  # replace with clip_model.encode_image(...)
+image_embeddings_proj = image_embeddings @ selected_components.T
+print(image_embeddings_proj.shape)  # (100, 256)</code></pre>
+      </div>
+      <p style="font-size:0.85rem; padding: 0.5rem 1rem 0.75rem; color:#555;">
+        Drop-in projection class: <a href="span_projection.html" target="_blank" style="color:#C8651D;">span_projection.py</a>
+      </p>
+    </details>
+
+    <details class="demo-block" style="margin-bottom: 1.5rem;">
+      <summary>
+        <span class="demo-title">Intra-Modal Similarity Recovery</span>
+        <span class="demo-desc">Recover image-image similarities given only text-image similarities (Appendix A).</span>
+      </summary>
+      <div class="bibtex-wrapper demo-code-wrapper">
+        <button class="copy-btn" onclick="copyCodeBlock(this)">Copy</button>
+        <pre><code class="demo-code">import torch
+import torch.nn.functional as F
+
+N, d = 42, 3  # set number of embeddings (N) and their dimension (d)
+
+# Setup
+X_T = F.normalize(torch.rand(N,d),dim=1)  # text embeddings, hidden
+X_I = F.normalize(torch.rand(N,d),dim=1)  # image embeddings, hidden
+S_inter = X_T @ X_I.T  # text-image similarities, given
+
+# Decompose
+U, Sigma, Vt = torch.linalg.svd(S_inter)
+U, V = U[:,:d], Vt.T[:,:d]  # reduced SVD (rank d)
+
+pairwise_products = V.unsqueeze(2) * V.unsqueeze(1)
+
+# Solve
+A = pairwise_products.view(N,d*d)
+b = torch.ones(N)
+
+x = torch.linalg.lstsq(A, b, driver='gelsd').solution
+
+# Recover
+Q = x.view(d,d)
+S_intra_recovered = V @ Q @ V.T
+
+# Check
+S_intra_true = X_I @ X_I.T
+print('RESULT: recovery error:', (S_intra_recovered - S_intra_true).abs().max())</code></pre>
+      </div>
+      <p style="font-size:0.85rem; padding: 0.5rem 1rem 0.75rem; color:#555;">
+        Full annotated walkthrough: <a href="s_intra_recovery.html" target="_blank" style="color:#C8651D;">s_intra_recovery.py</a>
+      </p>
+    </details>
+    <div style="margin-bottom:1.5rem;">
+      <span style="font-size:0.9rem; color:#555; display:block; margin-bottom:0.4rem;">Ask your agent:</span>
+      <div class="bibtex-wrapper">
+        <button class="copy-btn" onclick="copyCodeBlock(this)">Copy</button>
+        <pre style="margin:0; background:#f8f9fa; border:1px solid #e0e0e0; border-radius:8px; overflow-x:auto;"><code class="demo-code" style="display:block; padding:0.55rem 2.8rem 0.55rem 1rem; font-size:0.82rem; font-family:'SFMono-Regular',Consolas,'Liberation Mono',Menlo,monospace; color:#24292f; white-space:nowrap;">I want to try [the PCA projection from this paper]. Pull it from https://github.com/Vision-Kek/Is-CLIP-Really-Misaligned.</code></pre>
+      </div>
+    </div>
+
+
+  <hr class="rounded">
+
     <!-- Take Home Messages (keep as before) -->
     <h2 class="title is-3">Take Home Messages</h2>
 
@@ -1274,6 +1425,16 @@
 </div>
 
 <script>
+  // Generic code block copy (for demo snippets)
+  function copyCodeBlock(btn) {
+    const code = btn.closest('.bibtex-wrapper').querySelector('.demo-code');
+    navigator.clipboard.writeText(code.innerText).then(() => {
+      btn.textContent = 'Copied!';
+      btn.classList.add('copied');
+      setTimeout(() => { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 2000);
+    });
+  }
+
   // BibTeX copy
   function copyBibtex(btn) {
     const text = document.getElementById('bibtex-code').innerText;
